@@ -1,0 +1,144 @@
+---
+import { SITE } from '../../data/site';
+---
+<header class="top-header">
+  <div class="shell top-header__inner">
+    <div class="top-header__left">
+      <a href="/" class="top-header__logo" aria-label="T3element Home">
+        <img src="/logos/t3element-horizontal.png" alt="t3element" width="160" height="44" />
+      </a>
+      <span class="top-header__divider" aria-hidden="true"></span>
+      <p class="top-header__descriptor">
+        TYPO3 Agency<br />&amp; 360° Care Partner
+      </p>
+    </div>
+
+    <div class="top-header__right">
+      <div class="top-header__clock" aria-label="Local time">
+        <span class="orange-dot" aria-hidden="true"></span>
+        <span id="live-clock">--:-- --</span>
+        <span id="live-date" class="top-header__date">--- --</span>
+      </div>
+
+      <div class="top-header__actions">
+        <a href="/element-builder" class="top-header__login underline-link">
+          Element Builder
+        </a>
+        <a href="/contact" class="pill-btn top-header__cta">
+          <span>Book Consultation</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .top-header {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--border-hairline);
+    background: var(--bg-canvas);
+  }
+
+  .top-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .top-header__left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .top-header__logo img {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .top-header__divider {
+    width: 1px;
+    height: 28px;
+    background: var(--border-strong);
+    display: none;
+  }
+
+  .top-header__descriptor {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: var(--ink-secondary);
+    display: none;
+  }
+
+  .top-header__right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .top-header__clock {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--ink-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .top-header__date {
+    color: var(--ink-muted);
+  }
+
+  .top-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .top-header__login {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink-primary);
+  }
+
+  .top-header__cta {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.82rem;
+  }
+
+  @media (min-width: 768px) {
+    .top-header__divider,
+    .top-header__descriptor {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .top-header__clock {
+      display: flex;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const timeEl = document.getElementById('live-clock');
+    const dateEl = document.getElementById('live-date');
+    if (!timeEl || !dateEl) return;
+
+    function updateClock() {
+      const now = new Date();
+      timeEl.textContent = now
+        .toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+        .toLowerCase();
+      dateEl.textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+    }
+
+    updateClock();
+    setInterval(updateClock, 15000);
+  })();
+</script>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { FAQ_ITEMS } from '../data/site';
+
+const faqSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://t3element.com/faq/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="FAQ - TYPO3 Custom Content Element Builder | T3element"
+  description="Answers to common questions about T3element: build speed, TYPO3 v13/v14 support, Composer setup, pricing, and free installation."
+  schema={faqSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">FAQ</span>
+      <h1 class="display-h1 page-hero__title">Frequently Asked Questions.</h1>
+    </div>
+  </section>
+
+  <section class="faq-page section-band">
+    <div class="shell">
+      <div class="hairline-grid-2">
+        <span class="crosshair crosshair--tl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tr" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--br" aria-hidden="true"></span>
+
+        <div class="faq-page__col">
+          {
+            FAQ_ITEMS.map((item, idx) => (
+              <details class="faq-item" open={idx === 0}>
+                <summary class="faq-item__q">
+                  <span>{item.q}</span>
+                  <span class="faq-item__plus" aria-hidden="true">+</span>
+                </summary>
+                <p class="faq-item__a">{item.a}</p>
+              </details>
+            ))
+          }
+        </div>
+
+        <div class="faq-page__col">
+          <span class="eyebrow">ASK A QUESTION</span>
+          <h2 class="display-h3" style="margin: 0.5rem 0 1rem;">Didn't find what you need?</h2>
+          <form class="faq-form" id="faq-question-form">
+            <input type="text" name="name" required placeholder="Your name" class="line-input" />
+            <input type="email" name="email" required placeholder="Your email" class="line-input" />
+            <textarea name="question" rows="3" required placeholder="Enter your question" class="line-input"></textarea>
+            <button type="submit" class="pill-btn pill-btn--dark" style="align-self: flex-start;">
+              <span>Submit Question</span>
+              <span class="btn-arrow">→</span>
+            </button>
+            <p class="faq-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; max-width: 18ch; }
+  .faq-page { padding-block: clamp(2rem, 4vw, 4rem) clamp(5.5rem, 8vw, 7rem); }
+  .faq-page__col { padding: clamp(2rem, 4vw, 3.5rem); }
+  .faq-item { border-top: 1px solid var(--border-hairline); padding-block: 1.15rem; }
+  .faq-item:last-child { border-bottom: 1px solid var(--border-hairline); }
+  .faq-item__q {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .faq-item__q::-webkit-details-marker { display: none; }
+  .faq-item__plus { font-family: var(--font-mono); }
+  .faq-item[open] .faq-item__plus { transform: rotate(45deg); color: var(--accent-orange); }
+  .faq-item__a { margin: 0.75rem 0 0; color: var(--ink-secondary); line-height: 1.6; }
+  .faq-form { display: flex; flex-direction: column; gap: 1rem; }
+  .faq-status { margin: 0; font-size: 0.85rem; color: var(--ink-secondary); min-height: 1.2em; }
+</style>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById('faq-question-form');
+    if (!form) return;
+    const status = form.querySelector('.faq-status');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (status) status.textContent = 'Question received! Our team will respond via email.';
+      form.reset();
+    });
+  })();
+</script>

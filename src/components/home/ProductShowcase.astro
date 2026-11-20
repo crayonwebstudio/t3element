@@ -1,0 +1,887 @@
+---
+import { SHOWCASE_TABS, SITE } from '../../data/site';
+---
+<section class="showcase section-band">
+  <div class="shell">
+    <div class="showcase__head" data-reveal>
+      <div>
+        <span class="eyebrow">PRODUCT SHOWCASE</span>
+        <h2 class="display-h2">Get on TYPO3 CMS, fast.</h2>
+      </div>
+      <p class="showcase__lead">
+        Interactive builder preview: click through all 6 stages—paginate packages, customize wizard icons, add fields, switch Fluid presets, reorder blocks, and run a live compile.
+      </p>
+    </div>
+
+    <!-- 6-Tab Pill Switcher -->
+    <div class="showcase__tabs" role="tablist" aria-label="T3element workflow screens">
+      {
+        SHOWCASE_TABS.map((tab, i) => (
+          <button
+            type="button"
+            role="tab"
+            class:list={['showcase-tab', { 'is-active': i === 0 }]}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-tab-target={tab.id}
+          >
+            <span class="showcase-tab__num">{tab.step}</span>
+            <span>{tab.label}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="showcase__stage">
+      {
+        SHOWCASE_TABS.map((tab, i) => (
+          <div
+            class:list={['showcase-panel', { 'is-active': i === 0 }]}
+            role="tabpanel"
+            data-tab-panel={tab.id}
+            hidden={i !== 0}
+          >
+            <div class="showcase-panel__grid">
+              <div class="showcase-panel__info">
+                <span class="eyebrow">SCREEN {tab.step} / 06</span>
+                <h3 class="display-h3">{tab.title}</h3>
+                <p class="showcase-panel__caption">{tab.caption}</p>
+                <div class="showcase-panel__metrics">
+                  {tab.metrics.map((m) => <span class="pill-tag">{m}</span>)}
+                </div>
+                <a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="pill-btn">
+                  <span>Try {tab.label} Live</span>
+                  <span class="btn-arrow">→</span>
+                </a>
+              </div>
+
+              <!-- Interactive Animated UI Mockup Window -->
+              <div class="mock-window">
+                <div class="mock-window__bar">
+                  <div class="mock-window__dots" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <span class="mock-window__title">ce.t3element.com - {tab.mockTitle}</span>
+                  <span class="mock-window__badge">TYPO3 v13 &amp; v14</span>
+                </div>
+
+                <div class="mock-window__body">
+                  {/* 01: DASHBOARD (Interactive Packages Table + Pagination + Quick Add) */}
+                  {tab.id === 'dashboard' && (
+                    <div class="ui-dash">
+                      <div class="ui-dash__top anim-stagger">
+                        <strong class="ui-dash__title">Packages</strong>
+                        <button type="button" class="ui-new-pkg-btn" id="ui-add-pkg-btn">
+                          <span>New Package</span>
+                          <span class="ui-new-pkg-plus">+</span>
+                        </button>
+                      </div>
+
+                      <div class="ui-pkg-table anim-stagger" id="ui-pkg-table">
+                        <div class="ui-pkg-thead">
+                          <span>Package Name ↑</span>
+                          <span>Package Description</span>
+                          <span>Typo3 Version</span>
+                          <span class="ui-pkg-thead__act">Actions</span>
+                        </div>
+                        <div id="ui-pkg-rows"></div>
+                      </div>
+
+                      <div class="ui-pkg-pager anim-stagger">
+                        <button type="button" class="ui-pg-btn" data-pkg-page="1" aria-label="First page">|&lt;</button>
+                        <button type="button" class="ui-pg-btn" data-pkg-page="1" aria-label="Previous page">&lt;</button>
+                        <button type="button" class="ui-pg-btn is-page-active" data-pkg-page="1">1</button>
+                        <button type="button" class="ui-pg-btn" data-pkg-page="2">2</button>
+                        <button type="button" class="ui-pg-btn" data-pkg-page="2" aria-label="Next page">&gt;</button>
+                        <button type="button" class="ui-pg-btn" data-pkg-page="2" aria-label="Last page">&gt;|</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 02: CREATE ELEMENT (Live Inputs + Icon Picker -> Wizard Preview) */}
+                  {tab.id === 'create-element' && (
+                    <div class="ui-create">
+                      <div class="ui-create__form anim-stagger">
+                        <div class="ui-field-group">
+                          <label for="ui-el-title">Element Title</label>
+                          <input id="ui-el-title" type="text" value="Hero Feature Banner" class="ui-live-input" />
+                        </div>
+                        <div class="ui-field-group">
+                          <label for="ui-el-ctype">CType Key</label>
+                          <input id="ui-el-ctype" type="text" value="t3e_hero_banner" class="ui-live-input ui-live-input--mono" />
+                        </div>
+                        <div class="ui-field-group">
+                          <label>Select Wizard Icon</label>
+                          <div class="ui-icon-grid" id="ui-icon-grid">
+                            {['▦', '◫', '▤', '◈', '☰'].map((ico, idx) => (
+                              <button type="button" class:list={['ui-icon-box', { 'is-picked': idx === 0 }]} data-pick-icon={ico}>
+                                {ico}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui-create__preview anim-stagger">
+                        <span class="eyebrow">TYPO3 WIZARD PREVIEW</span>
+                        <div class="ui-wizard-card">
+                          <span class="ui-wizard-card__icon" id="ui-wiz-icon">▦</span>
+                          <div>
+                            <strong id="ui-wiz-title">Hero Feature Banner</strong>
+                            <p id="ui-wiz-ctype">CType: t3e_hero_banner</p>
+                          </div>
+                        </div>
+                        <button type="button" class="ui-jump-btn" data-jump-tab="element-field">
+                          Configure Fields →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 03: ELEMENT FIELD (Interactive Palette -> Schema + Required Toggles) */}
+                  {tab.id === 'element-field' && (
+                    <div class="ui-dnd">
+                      <div class="ui-dnd__palette anim-stagger">
+                        <span class="ui-dnd__heading">CLICK TO ADD FIELD</span>
+                        <button type="button" class="ui-palette-chip" data-add-field="subtitle|Input • Max 160">+ Input Text</button>
+                        <button type="button" class="ui-palette-chip is-dragging" data-add-field="summary|Rich Text (RTE)">+ Rich Text (RTE)</button>
+                        <button type="button" class="ui-palette-chip" data-add-field="gallery|FAL Media Collection">+ FAL Image</button>
+                        <button type="button" class="ui-palette-chip" data-add-field="cta_link|TYPO3 Link Wizard">+ Link / CTA</button>
+                        <button type="button" class="ui-palette-chip" data-add-field="features|IRRE Repeater">+ IRRE Repeater</button>
+                      </div>
+
+                      <div class="ui-dnd__canvas anim-stagger">
+                        <span class="ui-dnd__heading" id="ui-schema-count">ELEMENT SCHEMA (4 FIELDS)</span>
+                        <div id="ui-schema-list" class="ui-schema-list">
+                          <div class="ui-drop-card">
+                            <div><code>headline</code><span>Input • Required</span></div>
+                            <button type="button" class="ui-toggle is-on">ON</button>
+                          </div>
+                          <div class="ui-drop-card is-entering">
+                            <div><code>bodytext</code><span>Rich Text (RTE)</span></div>
+                            <button type="button" class="ui-toggle is-on">ON</button>
+                          </div>
+                          <div class="ui-drop-card">
+                            <div><code>media_image</code><span>FAL • WebP / PNG</span></div>
+                            <button type="button" class="ui-toggle is-on">ON</button>
+                          </div>
+                          <div class="ui-drop-card">
+                            <div><code>cta_items</code><span>IRRE Repeatable List</span></div>
+                            <button type="button" class="ui-toggle is-on">ON</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 04: ELEMENT TEMPLATE (Interactive Fluid Preset Switcher) */}
+                  {tab.id === 'element-template' && (
+                    <div class="ui-tpl">
+                      <div class="ui-tpl__code anim-stagger">
+                        <div class="ui-tpl__bar">
+                          <span class="ui-tpl__filename" id="ui-tpl-file">Templates/HeroBanner.html</span>
+                          <div class="ui-tpl__presets">
+                            <button type="button" class="ui-preset-btn is-active" data-tpl="hero">Hero</button>
+                            <button type="button" class="ui-preset-btn" data-tpl="pricing">Pricing</button>
+                            <button type="button" class="ui-preset-btn" data-tpl="faq">FAQ</button>
+                          </div>
+                        </div>
+                        <pre><code id="ui-tpl-code">&lt;f:layout name="Default" /&gt;
+&lt;f:section name="Main"&gt;
+  &lt;section class="t3e-hero"&gt;
+    &lt;h2&gt;&#123;data.tx_t3element_headline&#125;&lt;/h2&gt;
+    &lt;f:for each="&#123;items&#125;" as="item"&gt;
+      &lt;span class="badge"&gt;&#123;item.label&#125;&lt;/span&gt;
+    &lt;/f:for&gt;
+  &lt;/section&gt;
+&lt;/f:section&gt;</code></pre>
+                      </div>
+                      <div class="ui-tpl__render anim-stagger">
+                        <span class="eyebrow">FLUID OUTPUT PREVIEW</span>
+                        <div class="ui-render-box">
+                          <span class="ui-render-pill" id="ui-render-pill">Live Block</span>
+                          <h4 id="ui-render-title">Hero Feature Banner</h4>
+                          <p id="ui-render-desc">Bound variables auto-escaped for TYPO3 v13 &amp; v14.</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 05: LIST ELEMENT (Interactive Up/Down Reorder + Status Toggle) */}
+                  {tab.id === 'list-element' && (
+                    <div class="ui-list" id="ui-reorder-list">
+                      <div class="ui-list__item anim-stagger">
+                        <div class="ui-reorder-btns">
+                          <button type="button" class="ui-move-btn" data-move="up" aria-label="Move up">↑</button>
+                          <button type="button" class="ui-move-btn" data-move="down" aria-label="Move down">↓</button>
+                        </div>
+                        <div class="ui-list__main">
+                          <strong>Hero Feature Banner</strong>
+                          <code>CType: t3e_hero_banner • 4 fields</code>
+                        </div>
+                        <button type="button" class="ui-pill ui-pill--green ui-status-toggle">Verified</button>
+                      </div>
+                      <div class="ui-list__item anim-stagger">
+                        <div class="ui-reorder-btns">
+                          <button type="button" class="ui-move-btn" data-move="up" aria-label="Move up">↑</button>
+                          <button type="button" class="ui-move-btn" data-move="down" aria-label="Move down">↓</button>
+                        </div>
+                        <div class="ui-list__main">
+                          <strong>Pricing Comparison</strong>
+                          <code>CType: t3e_pricing_grid • 6 fields</code>
+                        </div>
+                        <button type="button" class="ui-pill ui-pill--green ui-status-toggle">Verified</button>
+                      </div>
+                      <div class="ui-list__item anim-stagger">
+                        <div class="ui-reorder-btns">
+                          <button type="button" class="ui-move-btn" data-move="up" aria-label="Move up">↑</button>
+                          <button type="button" class="ui-move-btn" data-move="down" aria-label="Move down">↓</button>
+                        </div>
+                        <div class="ui-list__main">
+                          <strong>FAQ Accordion</strong>
+                          <code>CType: t3e_faq_accordion • 3 fields</code>
+                        </div>
+                        <button type="button" class="ui-pill ui-pill--green ui-status-toggle">Verified</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 06: DOWNLOAD PACKAGE (Interactive Compile Trigger) */}
+                  {tab.id === 'download-package' && (
+                    <div class="ui-build">
+                      <div class="ui-build__steps anim-stagger">
+                        <div class="ui-build-step"><span>✓</span><code>Configuration/TCA/Overrides/tt_content.php</code></div>
+                        <div class="ui-build-step"><span>✓</span><code>Resources/Private/Templates/*.html</code></div>
+                        <div class="ui-build-step"><span>✓</span><code>ext_emconf.php &amp; ext_tables.sql</code></div>
+                      </div>
+                      <div class="ui-build__progress anim-stagger">
+                        <div class="ui-build__bar"><div class="ui-build__fill" id="ui-build-fill"></div></div>
+                        <span id="ui-build-pct">100% Compiled</span>
+                      </div>
+                      <div class="ui-zip-card anim-stagger">
+                        <div>
+                          <strong>corporate_blocks_v14.zip</strong>
+                          <span>Ready for TYPO3 Extension Manager / Composer</span>
+                        </div>
+                        <button type="button" class="ui-zip-btn" id="ui-rebuild-btn">
+                          Re-Compile Build ↻
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .showcase {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .showcase__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .showcase__head {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+
+  .showcase__lead {
+    margin: 0;
+    max-width: 46ch;
+    color: var(--ink-secondary);
+    font-size: 0.98rem;
+  }
+
+  .showcase__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .showcase-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-pill);
+    background: var(--bg-canvas);
+    color: var(--ink-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s var(--ease-expo);
+  }
+
+  .showcase-tab:hover {
+    border-color: var(--ink-primary);
+    color: var(--ink-primary);
+  }
+
+  .showcase-tab.is-active {
+    background: var(--ink-primary);
+    border-color: var(--ink-primary);
+    color: var(--ink-inverse);
+  }
+
+  .showcase-tab.is-active .showcase-tab__num {
+    color: var(--accent-orange);
+  }
+
+  .showcase-tab__num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+
+  .showcase__stage {
+    padding-top: 2.5rem;
+  }
+
+  .showcase-panel__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .showcase-panel__grid {
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 3.5rem;
+    }
+  }
+
+  .showcase-panel__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .showcase-panel__caption {
+    margin: 0;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+  }
+
+  .showcase-panel__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Mockup Window Shell */
+  .mock-window {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-card);
+    background: var(--bg-muted);
+    overflow: hidden;
+  }
+
+  .mock-window__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.2rem;
+    background: var(--bg-canvas);
+    border-bottom: 1px solid var(--border-hairline);
+    font-size: 0.78rem;
+  }
+
+  .mock-window__dots {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .mock-window__dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  .mock-window__title {
+    font-family: var(--font-mono);
+    color: var(--ink-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mock-window__badge {
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background: var(--accent-orange-soft);
+    color: var(--ink-primary);
+    font-weight: 600;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .mock-window__body {
+    padding: 1.25rem;
+    min-height: 325px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .showcase-panel.is-active .anim-stagger {
+    animation: staggerUp 0.4s var(--ease-expo) backwards;
+  }
+  .showcase-panel.is-active .anim-stagger:nth-child(2) { animation-delay: 0.05s; }
+  .showcase-panel.is-active .anim-stagger:nth-child(3) { animation-delay: 0.1s; }
+  .showcase-panel.is-active .anim-stagger:nth-child(4) { animation-delay: 0.15s; }
+
+  @keyframes staggerUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 01 Dashboard */
+  .ui-dash { display: flex; flex-direction: column; gap: 0.75rem; background: var(--bg-canvas); border: 1px solid var(--border-hairline); border-radius: 0.5rem; padding: 0.9rem 1rem; }
+  .ui-dash__top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  .ui-dash__title { font-size: 0.95rem; font-weight: 700; color: var(--ink-primary); }
+  .ui-new-pkg-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.28rem 0.35rem 0.28rem 0.7rem;
+    border: 1px solid rgba(247, 147, 30, 0.55); border-radius: 0.35rem;
+    font-size: 0.72rem; font-weight: 600; color: var(--accent-orange);
+    background: var(--bg-canvas); cursor: pointer; transition: background-color 0.2s ease;
+  }
+  .ui-new-pkg-btn:hover { background: var(--accent-orange-soft); }
+  .ui-new-pkg-plus {
+    width: 20px; height: 20px; border-radius: 0.25rem;
+    background: var(--ink-primary); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem;
+  }
+  .ui-pkg-table { display: flex; flex-direction: column; }
+  .ui-pkg-thead,
+  .ui-pkg-row {
+    display: grid;
+    grid-template-columns: 1.25fr 1.45fr 0.65fr 60px;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .ui-pkg-thead { font-size: 0.68rem; color: var(--ink-muted); font-weight: 600; }
+  .ui-pkg-thead__act { text-align: right; }
+  .ui-pkg-row { font-size: 0.74rem; transition: background-color 0.2s ease, transform 0.2s ease; }
+  .ui-pkg-row:hover { background: var(--bg-muted); transform: translateX(2px); }
+  .ui-pkg-cell-name { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+  .ui-pkg-cell-name strong { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ui-layer-ico {
+    width: 22px; height: 22px; border-radius: 0.3rem;
+    background: var(--bg-muted); border: 1px solid var(--border-hairline);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; color: var(--ink-secondary); flex-shrink: 0;
+  }
+  .ui-pkg-desc { color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ui-pkg-ver { font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-secondary); }
+  .ui-pkg-actions { display: flex; justify-content: flex-end; gap: 0.3rem; }
+  .ui-act-btn {
+    width: 22px; height: 22px; border-radius: 0.25rem;
+    background: var(--bg-muted); border: 1px solid var(--border-hairline);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; color: var(--ink-secondary); cursor: pointer;
+  }
+  .ui-act-btn:hover { border-color: var(--ink-primary); color: var(--ink-primary); }
+  .ui-pkg-pager {
+    display: flex; align-items: center; justify-content: center; gap: 0.35rem;
+    padding-top: 0.25rem; font-family: var(--font-mono); font-size: 0.68rem;
+  }
+  .ui-pg-btn {
+    min-width: 26px;
+    height: 26px;
+    padding: 0 0.35rem;
+    border-radius: 0.25rem;
+    border: none;
+    background: var(--bg-muted);
+    color: var(--ink-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ui-pg-btn.is-page-active {
+    background: var(--accent-orange-soft); color: var(--accent-orange); font-weight: 700;
+  }
+
+  /* 02 Create Element */
+  .ui-create { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  @media (min-width: 600px) { .ui-create { grid-template-columns: 1.1fr 0.9fr; } }
+  .ui-create__form, .ui-create__preview {
+    background: var(--bg-canvas); border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .ui-field-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .ui-field-group label { font-size: 0.7rem; color: var(--ink-muted); font-weight: 600; }
+  .ui-live-input {
+    padding: 0.45rem 0.65rem; border: 1px solid var(--border-hairline); border-radius: 0.35rem;
+    font-size: 0.8rem; background: var(--bg-canvas); outline: none;
+  }
+  .ui-live-input:focus { border-color: var(--accent-orange); }
+  .ui-live-input--mono { font-family: var(--font-mono); color: var(--ink-secondary); }
+  .ui-icon-grid { display: flex; gap: 0.4rem; }
+  .ui-icon-box {
+    width: 32px; height: 32px; border: 1px solid var(--border-hairline); border-radius: 0.35rem;
+    background: var(--bg-canvas); display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; cursor: pointer;
+  }
+  .ui-icon-box.is-picked { border-color: var(--accent-orange); background: var(--accent-orange-soft); }
+  .ui-wizard-card {
+    margin-top: 0.4rem; padding: 0.85rem; border: 1px solid var(--border-strong); border-radius: 0.45rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .ui-wizard-card__icon {
+    width: 36px; height: 36px; border-radius: 0.4rem; background: var(--bg-dark); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .ui-wizard-card strong { font-size: 0.85rem; display: block; }
+  .ui-wizard-card p { margin: 0.15rem 0 0; font-size: 0.72rem; font-family: var(--font-mono); color: var(--ink-muted); }
+  .ui-jump-btn {
+    margin-top: auto; align-self: flex-start; border: 1px solid var(--border-pill);
+    background: var(--bg-muted); padding: 0.4rem 0.8rem; border-radius: var(--radius-pill);
+    font-size: 0.74rem; font-weight: 600; cursor: pointer;
+  }
+  .ui-jump-btn:hover { border-color: var(--ink-primary); }
+
+  /* 03 Element Field */
+  .ui-dnd { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+  @media (min-width: 600px) { .ui-dnd { grid-template-columns: 0.75fr 1.25fr; } }
+  .ui-dnd__palette, .ui-dnd__canvas {
+    background: var(--bg-canvas); border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem; padding: 0.85rem; display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .ui-dnd__heading { font-family: var(--font-mono); font-size: 0.65rem; color: var(--ink-muted); letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .ui-palette-chip {
+    padding: 0.45rem 0.65rem; border: 1px dashed var(--border-strong); border-radius: 0.35rem;
+    font-size: 0.75rem; color: var(--ink-secondary); background: var(--bg-canvas);
+    text-align: left; cursor: pointer; transition: all 0.2s ease;
+  }
+  .ui-palette-chip:hover { border-style: solid; border-color: var(--accent-orange); color: var(--ink-primary); }
+  .ui-palette-chip.is-dragging {
+    border-style: solid; border-color: var(--accent-orange); background: var(--accent-orange-soft);
+    color: var(--ink-primary); font-weight: 600;
+  }
+  .ui-schema-list { display: flex; flex-direction: column; gap: 0.42rem; max-height: 225px; overflow-y: auto; }
+  .ui-drop-card {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.5rem 0.75rem; border: 1px solid var(--border-hairline); border-radius: 0.4rem;
+  }
+  .ui-drop-card.is-entering { border-color: var(--accent-orange); }
+  .ui-drop-card div { display: flex; flex-direction: column; }
+  .ui-drop-card code { font-family: var(--font-mono); font-size: 0.76rem; font-weight: 600; }
+  .ui-drop-card span { font-size: 0.68rem; color: var(--ink-muted); }
+  .ui-toggle {
+    font-family: var(--font-mono); font-size: 0.64rem; padding: 0.18rem 0.5rem; border: none;
+    border-radius: var(--radius-pill); background: var(--bg-muted); color: var(--ink-muted); cursor: pointer;
+  }
+  .ui-toggle.is-on { background: var(--bg-dark); color: #fff; }
+
+  /* 04 Element Template */
+  .ui-tpl { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
+  @media (min-width: 600px) { .ui-tpl { grid-template-columns: 1.25fr 0.75fr; } }
+  .ui-tpl__code {
+    background: var(--bg-dark); color: #f4f4f4; border-radius: 0.5rem; padding: 0.9rem;
+    font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.55; overflow-x: auto;
+  }
+  .ui-tpl__bar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.55rem; }
+  .ui-tpl__filename { color: var(--accent-orange); font-size: 0.68rem; }
+  .ui-tpl__presets { display: flex; gap: 0.25rem; }
+  .ui-preset-btn {
+    border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.75);
+    font-size: 0.64rem; padding: 0.15rem 0.45rem; border-radius: var(--radius-pill); cursor: pointer;
+  }
+  .ui-preset-btn.is-active { background: var(--accent-orange); border-color: var(--accent-orange); color: #111; font-weight: 600; }
+  .ui-tpl__code pre { margin: 0; }
+  .ui-tpl__render {
+    background: var(--bg-canvas); border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem; padding: 0.9rem; display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .ui-render-box {
+    border: 1px solid var(--border-hairline); border-radius: 0.4rem; padding: 0.85rem;
+    display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .ui-render-pill {
+    align-self: flex-start; font-size: 0.64rem; font-weight: 600;
+    padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); background: var(--accent-orange-soft);
+  }
+  .ui-render-box h4 { margin: 0; font-size: 0.9rem; }
+  .ui-render-box p { margin: 0; font-size: 0.72rem; color: var(--ink-muted); }
+
+  /* 05 List Element */
+  .ui-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .ui-list__item {
+    display: flex; align-items: center; gap: 0.85rem;
+    background: var(--bg-canvas); border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem; padding: 0.85rem 1rem;
+    transition: transform 0.25s var(--ease-expo), border-color 0.25s ease;
+  }
+  .ui-list__item:hover { border-color: var(--ink-primary); }
+  .ui-reorder-btns { display: flex; flex-direction: column; gap: 0.15rem; }
+  .ui-move-btn {
+    width: 20px; height: 18px; border: 1px solid var(--border-hairline); background: var(--bg-muted);
+    border-radius: 0.2rem; font-size: 0.65rem; cursor: pointer; line-height: 1;
+  }
+  .ui-move-btn:hover { border-color: var(--ink-primary); }
+  .ui-list__main { flex: 1; display: flex; flex-direction: column; gap: 0.15rem; }
+  .ui-list__main strong { font-size: 0.85rem; }
+  .ui-list__main code { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-muted); }
+  .ui-pill {
+    font-size: 0.7rem; font-weight: 600; padding: 0.22rem 0.65rem;
+    border-radius: var(--radius-pill); border: 1px solid var(--border-pill);
+    background: var(--bg-canvas); cursor: pointer;
+  }
+  .ui-pill--green { border-color: rgba(247, 147, 30, 0.5); background: var(--accent-orange-soft); }
+
+  /* 06 Download Package */
+  .ui-build { display: flex; flex-direction: column; gap: 0.85rem; }
+  .ui-build__steps {
+    background: var(--bg-canvas); border: 1px solid var(--border-hairline);
+    border-radius: 0.5rem; padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .ui-build-step { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; }
+  .ui-build-step span { color: var(--accent-orange); font-weight: 700; }
+  .ui-build-step code { font-family: var(--font-mono); color: var(--ink-primary); }
+  .ui-build__progress { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; }
+  .ui-build__bar { flex: 1; height: 6px; background: var(--bg-canvas); border-radius: var(--radius-pill); overflow: hidden; border: 1px solid var(--border-hairline); }
+  .ui-build__fill {
+    height: 100%; background: var(--accent-orange); width: 100%;
+    transition: width 0.65s var(--ease-expo);
+  }
+  .ui-zip-card {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+    background: var(--bg-dark); color: #fff; padding: 1rem 1.2rem; border-radius: 0.5rem;
+  }
+  .ui-zip-card strong { font-family: var(--font-mono); font-size: 0.84rem; display: block; }
+  .ui-zip-card span { font-size: 0.72rem; color: rgba(255,255,255,0.65); }
+  .ui-zip-btn {
+    font-size: 0.75rem; font-weight: 600; padding: 0.45rem 0.9rem; border: none;
+    border-radius: var(--radius-pill); background: var(--accent-orange); color: #111; cursor: pointer;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const tabs = document.querySelectorAll('[data-tab-target]');
+    const panels = document.querySelectorAll('[data-tab-panel]');
+    if (!tabs.length) return;
+
+    function switchTab(target) {
+      tabs.forEach((t) => {
+        const active = t.getAttribute('data-tab-target') === target;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach((p) => {
+        const match = p.getAttribute('data-tab-panel') === target;
+        p.hidden = !match;
+        p.classList.toggle('is-active', match);
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => switchTab(tab.getAttribute('data-tab-target')));
+    });
+
+    document.querySelectorAll('[data-jump-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => switchTab(btn.getAttribute('data-jump-tab')));
+    });
+
+    // 01 Dashboard: Pagination + Quick Add
+    const pkgPages = {
+      1: [
+        { name: 'Property Project', desc: 'Property Project Package', ver: '14.x.x' },
+        { name: 'Media Source Ag', desc: 'Media Source Ag Package', ver: '14.x.x' },
+        { name: 'Boat School TYPO3', desc: 'Boat School Package', ver: '13.x.x' },
+        { name: 'Bootstrap Package', desc: 'Bootstrap Kickstarter Package', ver: '13.x.x' },
+      ],
+      2: [
+        { name: 'Codetoil Package', desc: 'Codetoil Package', ver: '14.x.x' },
+        { name: 'Erpuat Landing Page', desc: 'Erpuat Landing Page Package', ver: '13.x.x' },
+        { name: 'UNV creation Solution', desc: 'UNV creation Solution Package', ver: '14.x.x' },
+        { name: 'Agencico Tailwind', desc: 'Agencico Tailwind Component', ver: '14.x.x' },
+      ],
+    };
+    const rowsEl = document.getElementById('ui-pkg-rows');
+    const pgBtns = document.querySelectorAll('[data-pkg-page]');
+    function renderPkgPage(page) {
+      if (!rowsEl) return;
+      const list = pkgPages[page] || pkgPages[1];
+      rowsEl.innerHTML = list
+        .map(
+          (r) => `<div class="ui-pkg-row">
+            <div class="ui-pkg-cell-name"><span class="ui-layer-ico">❖</span><strong>${r.name}</strong></div>
+            <span class="ui-pkg-desc">${r.desc}</span>
+            <span class="ui-pkg-ver">${r.ver}</span>
+            <div class="ui-pkg-actions">
+              <button type="button" class="ui-act-btn" data-act-go="create-element" title="Add Element">+</button>
+              <button type="button" class="ui-act-btn" data-act-go="list-element" title="Edit Package">✎</button>
+            </div>
+          </div>`
+        )
+        .join('');
+      rowsEl.querySelectorAll('[data-act-go]').forEach((b) => {
+        b.addEventListener('click', () => switchTab(b.getAttribute('data-act-go')));
+      });
+      pgBtns.forEach((b) => b.classList.toggle('is-page-active', b.textContent === String(page)));
+    }
+    renderPkgPage(1);
+    pgBtns.forEach((b) => {
+      b.addEventListener('click', () => renderPkgPage(Number(b.getAttribute('data-pkg-page'))));
+    });
+    const addPkgBtn = document.getElementById('ui-add-pkg-btn');
+    if (addPkgBtn) {
+      addPkgBtn.addEventListener('click', () => {
+        pkgPages[1].unshift({ name: 'EU Enterprise v14', desc: 'Custom Starter Package', ver: '14.x.x' });
+        pkgPages[1] = pkgPages[1].slice(0, 4);
+        renderPkgPage(1);
+      });
+    }
+
+    // 02 Create Element: Live Title, CType & Icon Picker
+    const elTitle = document.getElementById('ui-el-title');
+    const elCtype = document.getElementById('ui-el-ctype');
+    const wizTitle = document.getElementById('ui-wiz-title');
+    const wizCtype = document.getElementById('ui-wiz-ctype');
+    const wizIcon = document.getElementById('ui-wiz-icon');
+    if (elTitle && wizTitle) {
+      elTitle.addEventListener('input', () => { wizTitle.textContent = elTitle.value || 'Untitled Element'; });
+    }
+    if (elCtype && wizCtype) {
+      elCtype.addEventListener('input', () => { wizCtype.textContent = 'CType: ' + (elCtype.value || 't3e_block'); });
+    }
+    document.querySelectorAll('[data-pick-icon]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-pick-icon]').forEach((b) => b.classList.remove('is-picked'));
+        btn.classList.add('is-picked');
+        if (wizIcon) wizIcon.textContent = btn.getAttribute('data-pick-icon');
+      });
+    });
+
+    // 03 Element Field: Click Palette to Add Field + Toggle Required
+    const schemaList = document.getElementById('ui-schema-list');
+    const schemaCount = document.getElementById('ui-schema-count');
+    function bindToggle(btn) {
+      btn.addEventListener('click', () => {
+        const on = btn.classList.toggle('is-on');
+        btn.textContent = on ? 'ON' : 'OFF';
+      });
+    }
+    if (schemaList) {
+      schemaList.querySelectorAll('.ui-toggle').forEach(bindToggle);
+      document.querySelectorAll('[data-add-field]').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const [key, type] = (chip.getAttribute('data-add-field') || 'field|Input').split('|');
+          const card = document.createElement('div');
+          card.className = 'ui-drop-card is-entering';
+          card.innerHTML = `<div><code>${key}</code><span>${type}</span></div><button type="button" class="ui-toggle is-on">ON</button>`;
+          bindToggle(card.querySelector('.ui-toggle'));
+          schemaList.prepend(card);
+          if (schemaCount) schemaCount.textContent = `ELEMENT SCHEMA (${schemaList.children.length} FIELDS)`;
+        });
+      });
+    }
+
+    // 04 Element Template: Interactive Fluid Presets
+    const tplPresets = {
+      hero: {
+        file: 'Templates/HeroBanner.html',
+        code: `<f:layout name="Default" />\n<f:section name="Main">\n  <section class="t3e-hero">\n    <h2>{data.tx_t3element_headline}</h2>\n    <f:for each="{items}" as="item">\n      <span class="badge">{item.label}</span>\n    </f:for>\n  </section>\n</f:section>`,
+        pill: 'Live Block',
+        title: 'Hero Feature Banner',
+        desc: 'Bound variables auto-escaped for TYPO3 v13 & v14.',
+      },
+      pricing: {
+        file: 'Templates/PricingGrid.html',
+        code: `<f:layout name="Default" />\n<f:section name="Main">\n  <div class="t3e-pricing">\n    <h3>{data.tx_t3element_plan}</h3>\n    <strong>{data.tx_t3element_price}</strong>\n  </div>\n</f:section>`,
+        pill: '3-Tier Grid',
+        title: 'Pricing Comparison',
+        desc: 'Repeatable IRRE plan cards bound to Fluid.',
+      },
+      faq: {
+        file: 'Templates/FaqAccordion.html',
+        code: `<f:layout name="Default" />\n<f:section name="Main">\n  <f:for each="{questions}" as="q">\n    <details><summary>{q.title}</summary></details>\n  </f:for>\n</f:section>`,
+        pill: 'AEO Ready',
+        title: 'FAQ Accordion',
+        desc: 'Semantic <details> markup generated automatically.',
+      },
+    };
+    document.querySelectorAll('[data-tpl]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const p = tplPresets[btn.getAttribute('data-tpl')];
+        if (!p) return;
+        document.querySelectorAll('[data-tpl]').forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        document.getElementById('ui-tpl-file').textContent = p.file;
+        document.getElementById('ui-tpl-code').textContent = p.code;
+        document.getElementById('ui-render-pill').textContent = p.pill;
+        document.getElementById('ui-render-title').textContent = p.title;
+        document.getElementById('ui-render-desc').textContent = p.desc;
+      });
+    });
+
+    // 05 List Element: Up/Down Reorder + Status Toggle
+    const reorderList = document.getElementById('ui-reorder-list');
+    if (reorderList) {
+      reorderList.querySelectorAll('.ui-move-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.ui-list__item');
+          if (!item) return;
+          if (btn.getAttribute('data-move') === 'up' && item.previousElementSibling) {
+            reorderList.insertBefore(item, item.previousElementSibling);
+          } else if (btn.getAttribute('data-move') === 'down' && item.nextElementSibling) {
+            reorderList.insertBefore(item.nextElementSibling, item);
+          }
+        });
+      });
+      reorderList.querySelectorAll('.ui-status-toggle').forEach((pill) => {
+        pill.addEventListener('click', () => {
+          const isV = pill.textContent === 'Verified';
+          pill.textContent = isV ? 'Draft' : 'Verified';
+          pill.classList.toggle('ui-pill--green', !isV);
+        });
+      });
+    }
+
+    // 06 Download Package: Live Re-Compile Animation
+    const rebuildBtn = document.getElementById('ui-rebuild-btn');
+    const buildFill = document.getElementById('ui-build-fill');
+    const buildPct = document.getElementById('ui-build-pct');
+    if (rebuildBtn && buildFill && buildPct) {
+      rebuildBtn.addEventListener('click', () => {
+        buildFill.style.width = '12%';
+        buildPct.textContent = 'Compiling TCA...';
+        setTimeout(() => {
+          buildFill.style.width = '64%';
+          buildPct.textContent = 'Binding Fluid...';
+        }, 250);
+        setTimeout(() => {
+          buildFill.style.width = '100%';
+          buildPct.textContent = '100% Compiled ✓';
+        }, 650);
+      });
+    }
+  })();
+</script>

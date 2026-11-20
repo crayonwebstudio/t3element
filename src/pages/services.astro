@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { EU_SERVICES } from '../data/site';
+
+const servicesSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'TYPO3 Enterprise Engineering & Consulting',
+    provider: {
+      '@type': 'Organization',
+      name: 'T3element',
+      url: 'https://t3element.com/',
+    },
+    areaServed: ['DE', 'AT', 'CH', 'NL', 'GB', 'EU'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'European TYPO3 Services',
+      itemListElement: EU_SERVICES.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: s.title,
+          description: s.summary,
+        },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://t3element.com/services/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="European TYPO3 Services - Upgrades, Extensions & Headless | T3element"
+  description="Full-cycle TYPO3 services for DACH and EU enterprises: TYPO3 v13 & v14 LTS upgrades, custom extensions, headless TYPO3, GDPR/DSGVO audits, and Core Web Vitals optimization."
+  schema={servicesSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <div class="hero-pills">
+        <span class="pill-tag pill-tag--accent">
+          <span class="orange-dot" aria-hidden="true"></span>
+          DACH &amp; EUROPEAN UNION
+        </span>
+        <span class="pill-tag">TYPO3 v13 & v14 LTS</span>
+      </div>
+      <h1 class="display-h1 page-hero__title">Enterprise TYPO3 Services for Europe.</h1>
+      <p class="page-hero__sub">
+        From zero-downtime TYPO3 LTS upgrades and custom Extbase engineering to headless Astro/Next.js frontends and GDPR/DSGVO security compliance, we build and maintain mission-critical TYPO3 platforms.
+      </p>
+      <div class="page-hero__actions">
+        <a href="/contact" class="pill-btn pill-btn--dark">
+          <span>Book Technical Consultation</span>
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="/care-package" class="pill-btn">
+          <span>View 360° Care SLA</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-grid-section section-band">
+    <div class="shell">
+      <div class="services-grid">
+        {
+          EU_SERVICES.map((service) => (
+            <article class="service-card" data-reveal>
+              <span class="eyebrow">{service.code}</span>
+              <h2 class="display-h3 service-card__title">{service.title}</h2>
+              <p class="service-card__desc">{service.summary}</p>
+              <div class="service-card__pills">
+                {service.deliverables.map((d) => <span class="pill-tag">{d}</span>)}
+              </div>
+              <a href="/contact" class="underline-link service-card__cta">
+                Discuss {service.title.split('(')[0].trim()} →
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .page-hero__title { max-width: 18ch; }
+  .page-hero__sub { margin: 1.25rem 0 2rem; max-width: 58ch; color: var(--ink-secondary); font-size: 1.05rem; line-height: 1.6; }
+  .page-hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .services-grid-section { padding-block: clamp(3rem, 6vw, 5rem); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 820px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .service-card {
+    padding: clamp(2rem, 4vw, 3rem);
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .service-card__title { margin-top: 0.25rem; }
+  .service-card__desc { margin: 0; color: var(--ink-secondary); line-height: 1.6; font-size: 0.96rem; }
+  .service-card__pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.25rem; }
+  .service-card__cta { margin-top: auto; padding-top: 0.75rem; font-size: 0.88rem; font-weight: 600; }
+</style>

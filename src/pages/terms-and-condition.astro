@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const clauses = [
+  {
+    id: '01',
+    title: 'Acceptance of Terms',
+    body: 'By accessing t3element.com, using the standalone web builder at ce.t3element.com, or installing the T3element TYPO3 CMS extension, you agree to these Terms & Conditions.',
+  },
+  {
+    id: '02',
+    title: 'Free Access & Generated Packages',
+    body: 'T3element is provided free of charge to generate custom TYPO3 content elements and starter extension packages. Generated extension packages are yours to use in personal and commercial TYPO3 CMS projects.',
+  },
+  {
+    id: '03',
+    title: 'Package Immutability',
+    body: 'Once a package build is finalized and compiled for download, that specific build archive cannot be edited in-place. You may create a new package or build version at any time.',
+  },
+  {
+    id: '04',
+    title: 'Disclaimer of Warranty',
+    body: `T3element and its generated code are provided "as is" without warranty of any kind. Always test generated extensions in a staging environment before deploying to production. Questions? Contact ${SITE.email}.`,
+  },
+];
+---
+<BaseLayout title="Terms & Conditions - T3element" description="Terms and conditions for using T3element.">
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">LEGAL / TERMS</span>
+      <h1 class="display-h1 page-hero__title">Terms &amp; Conditions.</h1>
+      <p class="page-hero__sub">Guidelines governing the use of the T3element web builder and TYPO3 CMS extension.</p>
+    </div>
+  </section>
+
+  <section class="editorial-section section-band">
+    <div class="shell">
+      <div class="editorial-list">
+        {
+          clauses.map((c) => (
+            <article class="editorial-row">
+              <div class="editorial-row__left">
+                <span class="editorial-num">{c.id}</span>
+                <h2 class="display-h3">{c.title}</h2>
+              </div>
+              <div class="editorial-row__right">
+                <p>{c.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; }
+  .page-hero__sub { margin: 1rem 0 0; color: var(--ink-secondary); max-width: 54ch; }
+  .editorial-section { padding-bottom: clamp(4rem, 7vw, 6rem); }
+  .editorial-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 820px) {
+    .editorial-row {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 3rem;
+    }
+  }
+  .editorial-row__left { display: flex; flex-direction: column; gap: 0.5rem; }
+  .editorial-num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-orange); font-weight: 600; }
+  .editorial-row__right p { margin: 0; color: var(--ink-secondary); line-height: 1.7; font-size: 0.98rem; }
+</style>

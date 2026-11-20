@@ -1,0 +1,118 @@
+---
+import { ECOSYSTEM_ITEMS } from '../../data/site';
+---
+<section class="ecosystem section-band">
+  <div class="shell">
+    <div class="ecosystem__layout">
+      <div class="ecosystem__sticky">
+        <span class="eyebrow">MAIN DIRECTION</span>
+        <h2 class="display-h2 ecosystem__heading">Ecosystem &amp; Distribution</h2>
+        <p class="ecosystem__sub">
+          Use T3element in the cloud or integrate directly into your TYPO3 v13 or v14 workflow.
+        </p>
+      </div>
+
+      <div class="ecosystem__grid">
+        {
+          ECOSYSTEM_ITEMS.map((item) => {
+            const isExternal = item.href.startsWith('http') || item.href.startsWith('mailto:');
+            return (
+              <a
+                href={item.href}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+                class="eco-cell"
+                data-reveal
+              >
+                <span class="pill-tag">{item.tag}</span>
+                <h3 class="display-h3 eco-cell__title">{item.title}</h3>
+                <p class="eco-cell__desc">{item.desc}</p>
+                <span class="eco-cell__cta underline-link">{item.cta} →</span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ecosystem {
+    padding-block: clamp(4.5rem, 8vw, 7rem);
+  }
+
+  .ecosystem__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 960px) {
+    .ecosystem__layout {
+      grid-template-columns: 0.72fr 1.28fr;
+      gap: 4rem;
+    }
+    .ecosystem__sticky {
+      position: sticky;
+      top: 3.5rem;
+      align-self: start;
+    }
+  }
+
+  .ecosystem__heading {
+    margin-top: 0.75rem;
+    color: var(--ink-muted);
+  }
+
+  .ecosystem__sub {
+    margin: 1rem 0 0;
+    color: var(--ink-secondary);
+    max-width: 34ch;
+  }
+
+  .ecosystem__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+
+  @media (min-width: 640px) {
+    .ecosystem__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .eco-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    transition: background-color 0.25s ease;
+  }
+
+  .eco-cell:hover {
+    background: var(--bg-muted);
+  }
+
+  .eco-cell__title {
+    margin-top: 0.25rem;
+  }
+
+  .eco-cell__desc {
+    margin: 0;
+    color: var(--ink-secondary);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+
+  .eco-cell__cta {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+</style>

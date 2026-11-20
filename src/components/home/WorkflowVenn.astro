@@ -1,0 +1,90 @@
+---
+---
+<section class="venn-section section-band">
+  <div class="shell">
+    <div class="venn-grid">
+      <div class="venn-left" data-reveal>
+        <span class="eyebrow">OUR DESIGN APPROACH</span>
+        <h2 class="display-h2">Create. Configure. Build.</h2>
+        <p class="venn-sub">
+          T3element distills TYPO3 extension architecture into three visual steps, so developers and agencies ship custom content blocks in minutes.
+        </p>
+        <a href="/how-to" class="pill-btn">
+          <span>Explore 4-step process</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="venn-right" data-reveal>
+        <svg class="venn-svg" viewBox="0 0 460 360" role="img" aria-label="Three-step Venn diagram: Create Package, Configure Fields, Install in TYPO3">
+          <circle cx="170" cy="145" r="105" fill="none" stroke="#222222" stroke-width="1.25" stroke-opacity="0.75" />
+          <circle cx="290" cy="145" r="105" fill="none" stroke="#222222" stroke-width="1.25" stroke-opacity="0.75" />
+          <circle cx="230" cy="235" r="105" fill="none" stroke="#222222" stroke-width="1.25" stroke-opacity="0.75" />
+
+          <!-- Center Intersection Dot -->
+          <circle cx="230" cy="175" r="7" fill="#F7931E" />
+
+          <text x="140" y="125" text-anchor="middle" class="venn-label">CREATE</text>
+          <text x="320" y="125" text-anchor="middle" class="venn-label">CONFIGURE</text>
+          <text x="230" y="285" text-anchor="middle" class="venn-label">BUILD &amp; INSTALL</text>
+          <text x="230" y="198" text-anchor="middle" class="venn-center">TYPO3 ZIP</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .venn-section {
+    padding-block: clamp(4.5rem, 8vw, 7rem);
+  }
+
+  .venn-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .venn-grid {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+  }
+
+  .venn-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.35rem;
+  }
+
+  .venn-sub {
+    margin: 0;
+    max-width: 44ch;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+  }
+
+  .venn-svg {
+    width: 100%;
+    max-width: 460px;
+    margin-inline: auto;
+    height: auto;
+  }
+
+  .venn-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    fill: var(--ink-primary);
+  }
+
+  .venn-center {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    fill: var(--ink-secondary);
+  }
+</style>

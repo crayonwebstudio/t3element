@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CARE_TIERS } from '../data/site';
+
+const careSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'T3element 360° Care Package - Enterprise TYPO3 Maintenance & 24/7 SLA',
+    provider: {
+      '@type': 'Organization',
+      name: 'T3element',
+      url: 'https://t3element.com/',
+    },
+    areaServed: ['DE', 'AT', 'CH', 'NL', 'GB', 'EU'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: '360° Care SLA Tiers',
+      itemListElement: CARE_TIERS.map((tier) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: tier.name,
+          description: `${tier.sla} - ${tier.summary}`,
+        },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: '360° Care Package', item: 'https://t3element.com/care-package/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="360° Care Package - Enterprise TYPO3 Maintenance & 24/7 SLA | T3element"
+  description="360° Care SLA program for mission-critical European TYPO3 platforms: <1h 24/7 incident response, zero-day security patching, GDPR/Swiss FADP compliance, and included Major LTS upgrades."
+  schema={careSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <div class="hero-pills">
+        <span class="pill-tag pill-tag--accent">
+          <span class="orange-dot" aria-hidden="true"></span>
+          360° CARE PROGRAM
+        </span>
+        <span class="pill-tag">EUROPEAN ENTERPRISE SLA</span>
+      </div>
+      <h1 class="display-h1 page-hero__title">360° protection, maintenance &amp; evolution for TYPO3.</h1>
+      <p class="page-hero__sub">
+        Zero downtime, zero unpatched vulnerabilities, zero upgrade debt. Our 360° Care Package takes complete engineering ownership of your TYPO3 backend, extensions, and decoupled frontends.
+      </p>
+    </div>
+  </section>
+
+  <section class="care-tiers section-band">
+    <div class="shell">
+      <div class="tiers-grid">
+        {
+          CARE_TIERS.map((tier) => (
+            <article class:list={['tier-card', { 'tier-card--featured': tier.highlighted }]} data-reveal>
+              <div class="tier-card__top">
+                <span class:list={['pill-tag', { 'pill-tag--accent': tier.highlighted }]}>{tier.badge}</span>
+                <h2 class="display-h3 tier-card__name">{tier.name}</h2>
+                <p class="tier-card__sla">{tier.sla}</p>
+                <p class="tier-card__summary">{tier.summary}</p>
+              </div>
+
+              <ul class="tier-card__list">
+                {tier.features.map((f) => (
+                  <li>
+                    <span class="tier-check" aria-hidden="true">✓</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <a href="/contact" class:list={['pill-btn', { 'pill-btn--dark': tier.highlighted }]}>
+                <span>Request {tier.name}</span>
+                <span class="btn-arrow">→</span>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .page-hero__title { max-width: 19ch; }
+  .page-hero__sub { margin: 1.25rem 0 0; max-width: 58ch; color: var(--ink-secondary); font-size: 1.05rem; line-height: 1.6; }
+
+  .care-tiers { padding-block: clamp(3rem, 6vw, 5.5rem); }
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 960px) {
+    .tiers-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .tier-card {
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    border: 1px solid var(--border-hairline);
+    border-radius: 0.75rem;
+    background: var(--bg-canvas);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .tier-card--featured {
+    border-color: var(--ink-primary);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  }
+  .tier-card__top { display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .tier-card__name { margin-top: 0.25rem; }
+  .tier-card__sla {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+  .tier-card__summary { margin: 0; color: var(--ink-secondary); font-size: 0.92rem; line-height: 1.55; }
+  .tier-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    flex: 1;
+    border-top: 1px solid var(--border-hairline);
+    padding-top: 1.25rem;
+  }
+  .tier-card__list li {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--ink-primary);
+    line-height: 1.45;
+  }
+  .tier-check { color: var(--accent-orange); font-weight: 700; }
+</style>

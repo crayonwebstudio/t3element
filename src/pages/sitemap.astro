@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const groups = [
+  {
+    title: 'European Brand & Services',
+    links: [
+      { label: 'Home', href: '/', path: '/' },
+      { label: 'TYPO3 Services', href: '/services', path: '/services' },
+      { label: '360° Care Package (SLA)', href: '/care-package', path: '/care-package' },
+      { label: 'About Us', href: '/about', path: '/about' },
+      { label: 'Contact & Consultation', href: '/contact', path: '/contact' },
+    ],
+  },
+  {
+    title: 'Element Builder & Docs',
+    links: [
+      { label: 'Element Builder', href: '/element-builder', path: '/element-builder' },
+      { label: 'How To (4-Step Workflow)', href: '/how-to', path: '/how-to' },
+      { label: 'User Guide (TYPO3 v13–v14)', href: '/user-guide', path: '/user-guide' },
+      { label: 'FAQ', href: '/faq', path: '/faq' },
+      { label: 'Privacy Policy', href: '/privacy-policy', path: '/privacy-policy' },
+      { label: 'Terms & Conditions', href: '/terms-and-condition', path: '/terms-and-condition' },
+      { label: 'Copyright Notice', href: '/copyright', path: '/copyright' },
+    ],
+  },
+  {
+    title: 'External Ecosystem',
+    links: [
+      { label: 'Standalone App Login', href: SITE.appLoginUrl, path: 'ce.t3element.com/auth/login', external: true },
+      { label: 'Standalone App Registration', href: SITE.appRegisterUrl, path: 'ce.t3element.com/auth/registration', external: true },
+      { label: 'GitHub Repository', href: SITE.githubUrl, path: 'github.com/milancrayon/t3element12', external: true },
+      { label: 'TYPO3 Extension Repository (TER)', href: SITE.terUrl, path: 'extensions.typo3.org/extension/t3element', external: true },
+      { label: 'Packagist (Composer)', href: SITE.packagistUrl, path: 'packagist.org/packages/t3element/t3element12', external: true },
+    ],
+  },
+];
+---
+<BaseLayout title="Sitemap - T3element" description="Complete directory of all T3element pages and external resources.">
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">NAVIGATION</span>
+      <h1 class="display-h1 page-hero__title">Sitemap.</h1>
+      <p class="page-hero__sub">All pages, documentation routes, legal notices, and external TYPO3 ecosystem links.</p>
+    </div>
+  </section>
+
+  <section class="sitemap-section section-band">
+    <div class="shell">
+      <div class="sitemap-grid">
+        {
+          groups.map((group) => (
+            <div class="sitemap-col">
+              <h2 class="eyebrow">{group.title}</h2>
+              <ul class="sitemap-list">
+                {group.links.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener noreferrer' : undefined}
+                      class="sitemap-link"
+                    >
+                      <span class="underline-link">{item.label}</span>
+                      <code>{item.path}</code>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; }
+  .page-hero__sub { margin: 1rem 0 0; color: var(--ink-secondary); max-width: 54ch; }
+  .sitemap-section { padding-block: clamp(3rem, 6vw, 5rem); }
+  .sitemap-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 900px) {
+    .sitemap-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .sitemap-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sitemap-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--border-hairline);
+    font-weight: 500;
+  }
+  .sitemap-link code {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ink-muted);
+  }
+</style>

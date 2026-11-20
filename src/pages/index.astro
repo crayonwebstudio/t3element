@@ -1,0 +1,348 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ABOUT_METRICS, CARE_TIERS, EU_FAQS, EU_SERVICES, SITE } from '../data/site';
+
+const homeSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'T3element European TYPO3 Engineering & 360° Care Services',
+    serviceType: 'TYPO3 Agency, LTS Upgrades, Headless TYPO3 & 24/7 SLA',
+    provider: { '@type': 'Organization', name: 'T3element', url: 'https://t3element.com/' },
+    areaServed: ['DE', 'AT', 'CH', 'NL', 'GB', 'EU'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: EU_FAQS.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+<BaseLayout
+  title="T3element - European TYPO3 Agency, LTS Upgrades & 360° Care SLA"
+  description="European TYPO3 engineering partner for DACH & EU enterprises: TYPO3 v13 & v14 LTS upgrades, custom extensions, headless TYPO3, 24/7 360° Care SLA, and the free T3element Content Block Builder."
+  schema={homeSchema}
+>
+  <!-- 1. European Brand Hero -->
+  <section class="brand-hero">
+    <div class="shell">
+      <div class="hairline-grid-2 brand-hero__grid">
+        <span class="crosshair crosshair--tl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tr" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--br" aria-hidden="true"></span>
+
+        <!-- Left: European Delivery & SLA Matrix -->
+        <div class="brand-hero__left">
+          <div class="eu-head">
+            <span class="eyebrow">EUROPEAN DELIVERY MATRIX</span>
+            <span class="eu-live">
+              <span class="orange-dot pulse-dot" aria-hidden="true"></span>
+              <span>CET / EU SLA ACTIVE</span>
+            </span>
+          </div>
+
+          <div class="eu-regions">
+            {['DE • Germany', 'CH • Switzerland', 'AT • Austria', 'NL • Benelux', 'GB • United Kingdom', 'EU • Union'].map((r) => (
+              <span class="pill-tag">{r}</span>
+            ))}
+          </div>
+
+          <div class="eu-metrics">
+            {
+              ABOUT_METRICS.map((m) => (
+                <div class="eu-metric">
+                  <strong>{m.value}</strong>
+                  <span>{m.label}</span>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="eu-compliance">
+            <span class="eyebrow">COMPLIANCE &amp; STANDARDS</span>
+            <p>GDPR / DSGVO Native • Swiss FADP • TYPO3 v13 & v14 LTS • 95+ Core Web Vitals</p>
+          </div>
+        </div>
+
+        <!-- Right: Main European Brand Value Prop -->
+        <div class="brand-hero__right">
+          <div>
+            <span class="pill-tag pill-tag--accent">
+              <span class="orange-dot" aria-hidden="true"></span>
+              EUROPEAN TYPO3 ENGINEERING PARTNER
+            </span>
+          </div>
+
+          <h1 class="display-h1">TYPO3 Engineering, 360° Care &amp; Content Architecture.</h1>
+
+          <p class="brand-hero__sub">
+            We help European enterprises and DACH agencies upgrade to TYPO3 v13/v14 LTS, build custom extensions &amp; headless frontends, and run mission-critical platforms under a 24/7 360° Care SLA.
+          </p>
+
+          <div class="brand-hero__actions">
+            <a href="/services" class="pill-btn pill-btn--dark">
+              <span>Explore TYPO3 Services</span>
+              <span class="btn-arrow">→</span>
+            </a>
+            <a href="/care-package" class="pill-btn">
+              <span>360° Care Package</span>
+              <span class="btn-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Core TYPO3 Services Overview -->
+  <section class="home-services section-band">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="eyebrow">TYPO3 SERVICES FOR EUROPE</span>
+          <h2 class="display-h2">Full-lifecycle TYPO3 engineering.</h2>
+        </div>
+        <a href="/services" class="pill-btn">
+          <span>All Services</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="services-grid">
+        {
+          EU_SERVICES.map((s) => (
+            <a href="/services" class="service-cell" data-reveal>
+              <span class="eyebrow">{s.code}</span>
+              <h3 class="display-h3">{s.title}</h3>
+              <p>{s.summary}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 360° Care Package Spotlight -->
+  <section class="home-care section-band">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="eyebrow">360° CARE SLA</span>
+          <h2 class="display-h2">Zero downtime. Zero upgrade debt.</h2>
+        </div>
+        <a href="/care-package" class="pill-btn pill-btn--dark">
+          <span>Compare 360° Care Tiers</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="care-strip">
+        {
+          CARE_TIERS.map((tier) => (
+            <div class:list={['care-mini', { 'care-mini--featured': tier.highlighted }]} data-reveal>
+              <span class:list={['pill-tag', { 'pill-tag--accent': tier.highlighted }]}>{tier.badge}</span>
+              <h3 class="display-h3">{tier.name}</h3>
+              <p class="care-mini__sla">{tier.sla}</p>
+              <p class="care-mini__desc">{tier.summary}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Free Element Builder Spotlight -->
+  <section class="home-builder section-band">
+    <div class="shell">
+      <div class="builder-banner" data-reveal>
+        <div class="builder-banner__left">
+          <span class="pill-tag pill-tag--accent">
+            <span class="orange-dot" aria-hidden="true"></span>
+            OUR FREE COMMUNITY TOOL
+          </span>
+          <h2 class="display-h2">T3element Content Block Builder.</h2>
+          <p>
+            Need to build custom TYPO3 content elements in 4–5 minutes without TypoScript boilerplate? Use our free drag-and-drop builder, now housed inside its own dedicated workspace.
+          </p>
+        </div>
+        <div class="builder-banner__actions">
+          <a href="/element-builder" class="pill-btn pill-btn--dark">
+            <span>Explore Element Builder</span>
+            <span class="btn-arrow">→</span>
+          </a>
+          <a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="pill-btn">
+            <span>Launch Standalone App</span>
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. European TYPO3 FAQ (AEO / GEO) -->
+  <section class="home-faq section-band">
+    <div class="shell">
+      <div class="section-head" data-reveal>
+        <div>
+          <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+          <h2 class="display-h2">Answers for European TYPO3 teams.</h2>
+        </div>
+        <a href="/contact" class="pill-btn">
+          <span>Ask Our Architects</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="faq-list">
+        {
+          EU_FAQS.map((item, idx) => (
+            <details class="faq-item" open={idx === 0}>
+              <summary class="faq-item__q">
+                <span>{item.q}</span>
+                <span class="faq-item__plus" aria-hidden="true">+</span>
+              </summary>
+              <p class="faq-item__a">{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .brand-hero__left,
+  .brand-hero__right {
+    padding: clamp(2rem, 4vw, 3.75rem);
+  }
+  .brand-hero__left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    background: linear-gradient(180deg, rgba(247, 247, 247, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+  .eu-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; }
+  .eu-live { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-secondary); }
+  .pulse-dot { animation: pulseLive 1.4s ease-in-out infinite; }
+  @keyframes pulseLive { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.45); opacity: 0.55; } }
+  .eu-regions { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .eu-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+  .eu-metric {
+    padding: 1.15rem;
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    background: var(--bg-canvas);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .eu-metric strong { font-size: 1.45rem; font-weight: 600; letter-spacing: -0.02em; }
+  .eu-metric span { font-size: 0.76rem; color: var(--ink-muted); }
+  .eu-compliance { display: flex; flex-direction: column; gap: 0.35rem; }
+  .eu-compliance p { margin: 0; font-size: 0.84rem; color: var(--ink-secondary); }
+
+  .brand-hero__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.4rem;
+  }
+  .brand-hero__sub { margin: 0; max-width: 52ch; color: var(--ink-secondary); font-size: 1.05rem; line-height: 1.6; }
+  .brand-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem; }
+
+  .home-services, .home-care, .home-builder, .home-faq {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-head h2 { margin-top: 0.5rem; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 768px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1100px) {
+    .services-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  .service-cell {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background-color 0.25s ease;
+  }
+  .service-cell:hover { background: var(--bg-muted); }
+  .service-cell p { margin: 0; font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.55; }
+
+  .care-strip { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  @media (min-width: 900px) { .care-strip { grid-template-columns: repeat(3, 1fr); } }
+  .care-mini {
+    padding: 1.75rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .care-mini--featured { border-color: var(--ink-primary); background: var(--bg-muted); }
+  .care-mini__sla { margin: 0; font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-orange); font-weight: 600; }
+  .care-mini__desc { margin: 0; font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.55; }
+
+  .builder-banner {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--border-strong);
+    border-radius: 0.75rem;
+    background: var(--bg-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  @media (min-width: 900px) {
+    .builder-banner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+  .builder-banner__left { display: flex; flex-direction: column; align-items: flex-start; gap: 0.85rem; max-width: 58ch; }
+  .builder-banner__left p { margin: 0; color: var(--ink-secondary); line-height: 1.6; }
+  .builder-banner__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+  .faq-list { display: flex; flex-direction: column; }
+  .faq-item { border-top: 1px solid var(--border-hairline); padding-block: 1.2rem; }
+  .faq-item:last-child { border-bottom: 1px solid var(--border-hairline); }
+  .faq-item__q {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .faq-item__q::-webkit-details-marker { display: none; }
+  .faq-item__plus { font-family: var(--font-mono); }
+  .faq-item[open] .faq-item__plus { transform: rotate(45deg); color: var(--accent-orange); }
+  .faq-item__a { margin: 0.75rem 0 0; color: var(--ink-secondary); line-height: 1.65; max-width: 78ch; }
+</style>

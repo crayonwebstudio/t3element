@@ -1,0 +1,266 @@
+---
+import { FAQ_ITEMS, ROADMAP_ITEMS } from '../../data/site';
+---
+<section class="community section-band">
+  <div class="shell">
+    <div class="hairline-grid-2 community__grid">
+      <span class="crosshair crosshair--tl" aria-hidden="true"></span>
+      <span class="crosshair crosshair--tc" aria-hidden="true"></span>
+      <span class="crosshair crosshair--tr" aria-hidden="true"></span>
+      <span class="crosshair crosshair--bl" aria-hidden="true"></span>
+      <span class="crosshair crosshair--bc" aria-hidden="true"></span>
+      <span class="crosshair crosshair--br" aria-hidden="true"></span>
+
+      <!-- Left: Roadmap & Feedback -->
+      <div class="community__col" data-reveal>
+        <span class="eyebrow">ROADMAP &amp; PULSE</span>
+        <h2 class="display-h3 community__title">What should we prioritize next?</h2>
+
+        <ul class="roadmap-list">
+          {
+            ROADMAP_ITEMS.map((item, idx) => (
+              <li class="roadmap-item">
+                <span class="roadmap-num">0{idx + 1}</span>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <form class="feedback-form" id="home-feedback-form">
+          <div class="pulse-row">
+            <span class="eyebrow">HOW WAS YOUR DAY? <span id="pulse-mood-label" class="pulse-mood-label"></span></span>
+            <div class="pulse-buttons" role="group" aria-label="Daily mood rating">
+              {[
+                { emoji: '😞', label: 'Rough' },
+                { emoji: '😕', label: 'Meh' },
+                { emoji: '😐', label: 'Okay' },
+                { emoji: '🙂', label: 'Good' },
+                { emoji: '🤩', label: 'Awesome' },
+              ].map((m) => (
+                <button
+                  type="button"
+                  class="pulse-btn"
+                  data-pulse={m.label}
+                  aria-label={m.label}
+                  title={m.label}
+                >
+                  {m.emoji}
+                </button>
+              ))}
+            </div>
+          </div>
+          <input type="text" name="name" required placeholder="Your name" class="line-input" />
+          <input type="email" name="email" required placeholder="Your email" class="line-input" />
+          <input type="text" name="feedback" required placeholder="Share feedback or feature priority" class="line-input" />
+          <button type="submit" class="pill-btn">
+            <span>Submit Feedback</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <p class="feedback-status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- Right: FAQ Accordion -->
+      <div class="community__col" data-reveal>
+        <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+        <h2 class="display-h3 community__title">Quick answers for TYPO3 teams.</h2>
+
+        <div class="faq-list">
+          {
+            FAQ_ITEMS.map((item, idx) => (
+              <details class="faq-item" open={idx === 0}>
+                <summary class="faq-item__q">
+                  <span>{item.q}</span>
+                  <span class="faq-item__plus" aria-hidden="true">+</span>
+                </summary>
+                <p class="faq-item__a">{item.a}</p>
+              </details>
+            ))
+          }
+        </div>
+
+        <a href="/faq" class="underline-link community__all-faq">
+          View all FAQs or ask a question →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .community {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .community__col {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .community__title {
+    margin-top: -0.5rem;
+  }
+
+  .roadmap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .roadmap-item {
+    display: flex;
+    gap: 0.85rem;
+    font-size: 0.92rem;
+    color: var(--ink-secondary);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .roadmap-num {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent-orange);
+    font-weight: 600;
+    padding-top: 0.15rem;
+  }
+
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .pulse-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pulse-buttons {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .pulse-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-pill);
+    background: var(--bg-canvas);
+    font-size: 1.05rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s var(--ease-expo), border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .pulse-btn:hover {
+    transform: scale(1.12);
+    border-color: var(--ink-primary);
+  }
+
+  .pulse-btn.is-selected {
+    background: var(--accent-orange-soft);
+    border-color: var(--accent-orange);
+    transform: scale(1.12);
+  }
+
+  .pulse-mood-label {
+    color: var(--accent-orange);
+    margin-left: 0.35rem;
+  }
+
+  .feedback-status {
+    margin: 0;
+    font-size: 0.84rem;
+    color: var(--ink-secondary);
+    min-height: 1.2em;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-item {
+    border-top: 1px solid var(--border-hairline);
+    padding-block: 1.1rem;
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .faq-item__q {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 0.98rem;
+    cursor: pointer;
+  }
+
+  .faq-item__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__plus {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item[open] .faq-item__plus {
+    transform: rotate(45deg);
+    color: var(--accent-orange);
+  }
+
+  .faq-item__a {
+    margin: 0.75rem 0 0;
+    color: var(--ink-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .community__all-faq {
+    align-self: flex-start;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const pulseBtns = document.querySelectorAll('[data-pulse]');
+    const moodLabel = document.getElementById('pulse-mood-label');
+    pulseBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        pulseBtns.forEach((b) => b.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        if (moodLabel) moodLabel.textContent = btn.getAttribute('data-pulse') || '';
+      });
+    });
+
+    const form = document.getElementById('home-feedback-form');
+    if (!form) return;
+    const status = form.querySelector('.feedback-status');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (status) status.textContent = 'Thank you! Your feedback has been recorded.';
+      form.reset();
+    });
+  })();
+</script>

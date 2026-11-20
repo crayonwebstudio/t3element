@@ -1,0 +1,152 @@
+---
+import '../styles/tokens.css';
+import '../styles/grid.css';
+import Preloader from '../components/chrome/Preloader.astro';
+import TopHeader from '../components/chrome/TopHeader.astro';
+import FloatingDock from '../components/chrome/FloatingDock.astro';
+import Footer from '../components/chrome/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title = `${SITE.name} - ${SITE.tagline}`,
+  description = SITE.description,
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const canonicalUrl = new URL(currentPath, 'https://t3element.com').toString();
+const ogImage = 'https://t3element.com/logos/t3element-horizontal.png';
+
+const baseSchemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'T3element',
+    url: 'https://t3element.com/',
+    logo: ogImage,
+    email: SITE.email,
+    sameAs: [SITE.linkedinUrl, SITE.githubUrl, SITE.terUrl, SITE.packagistUrl],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'T3element - TYPO3 Custom Content Block Builder',
+    operatingSystem: 'Web, TYPO3 CMS v13, v14',
+    applicationCategory: 'DeveloperApplication',
+    url: 'https://t3element.com/',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    description,
+  },
+];
+
+const extraSchemas = Array.isArray(schema) ? schema : schema ? [schema] : [];
+const allSchemas = [...baseSchemas, ...extraSchemas];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1'} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="T3element" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script async src="https://www.googletagmanager.com/gtm.js?id=G-Y2EQ6PJDP4"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+
+    {
+      allSchemas.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
+  </head>
+  <body>
+    <Preloader />
+    <TopHeader />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <FloatingDock currentPath={currentPath} />
+
+    <script>
+      import Lenis from 'lenis';
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({
+        duration: 1.05,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      lenis.on('scroll', ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      // Subtle UXIS reveal animations (never trap elements at opacity: 0)
+      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 18, opacity: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 92%',
+              once: true,
+            },
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ABOUT_METRICS, ABOUT_PRINCIPLES } from '../data/site';
+
+const aboutSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About T3element - European TYPO3 Engineering & Services',
+    description: 'Learn about T3element: our European TYPO3 delivery model, GDPR/DSGVO standards, and open-source tools (T3element Builder & T3Headless).',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'About Us', item: 'https://t3element.com/about/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="About Us - European TYPO3 Engineering Partner | T3element"
+  description="T3element is a specialized TYPO3 engineering partner serving DACH and European enterprises with LTS upgrades, custom extensions, 360° Care SLAs, and open-source TYPO3 tooling."
+  schema={aboutSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">ABOUT T3ELEMENT</span>
+      <h1 class="display-h1 page-hero__title">Built by TYPO3 engineers, trusted across Europe.</h1>
+      <p class="page-hero__sub">
+        We started by building developer tools that eliminate TYPO3 boilerplate, and grew into a dedicated engineering partner helping European enterprises upgrade, secure, and scale their TYPO3 platforms.
+      </p>
+    </div>
+  </section>
+
+  <section class="metrics-band section-band">
+    <div class="shell">
+      <div class="metrics-grid">
+        {
+          ABOUT_METRICS.map((m) => (
+            <div class="metric-cell">
+              <strong class="metric-val">{m.value}</strong>
+              <span class="metric-label">{m.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="principles-band section-band">
+    <div class="shell">
+      <div class="principles-list">
+        {
+          ABOUT_PRINCIPLES.map((p) => (
+            <article class="principle-row" data-reveal>
+              <div class="principle-row__left">
+                <span class="principle-num">{p.num}</span>
+                <h2 class="display-h3">{p.title}</h2>
+              </div>
+              <div class="principle-row__right">
+                <p>{p.desc}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; max-width: 18ch; }
+  .page-hero__sub { margin: 1.25rem 0 0; max-width: 58ch; color: var(--ink-secondary); font-size: 1.05rem; line-height: 1.6; }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-left: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 820px) {
+    .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .metric-cell {
+    padding: clamp(1.75rem, 3vw, 2.75rem);
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .metric-val { font-size: clamp(1.75rem, 3vw, 2.6rem); font-weight: 600; letter-spacing: -0.03em; }
+  .metric-label { font-size: 0.85rem; color: var(--ink-secondary); }
+
+  .principles-band { padding-block: clamp(2rem, 4vw, 4rem); }
+  .principle-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 820px) {
+    .principle-row { grid-template-columns: 0.85fr 1.15fr; gap: 3rem; }
+  }
+  .principle-row__left { display: flex; flex-direction: column; gap: 0.5rem; }
+  .principle-num { font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent-orange); font-weight: 600; }
+  .principle-row__right p { margin: 0; color: var(--ink-secondary); line-height: 1.7; font-size: 1rem; }
+</style>

@@ -1,0 +1,209 @@
+---
+import { HOW_TO_STEPS } from '../../data/site';
+---
+<section class="pkg-steps">
+  <div class="shell">
+    <div class="pkg-steps__head" data-reveal>
+      <div>
+        <span class="eyebrow">4-STEP PACKAGE WORKFLOW</span>
+        <h2 class="display-h2">Create your TYPO3 package in 4 steps.</h2>
+      </div>
+      <span class="pkg-steps__status" id="pkg-step-indicator">Step 01 / 04 Active</span>
+    </div>
+
+    <div class="pkg-steps__grid" id="pkg-steps-grid">
+      <span class="crosshair crosshair--tl" aria-hidden="true"></span>
+      <span class="crosshair crosshair--tr" aria-hidden="true"></span>
+      <span class="crosshair crosshair--bl" aria-hidden="true"></span>
+      <span class="crosshair crosshair--br" aria-hidden="true"></span>
+
+      {
+        HOW_TO_STEPS.map((item, idx) => (
+          <button
+            type="button"
+            class:list={['pkg-box', { 'is-active': idx === 0 }]}
+            data-pkg-step={item.step}
+          >
+            <div class="pkg-box__top">
+              <span class="pkg-box__num">{item.step}</span>
+              <span class="pkg-box__dot" aria-hidden="true"></span>
+            </div>
+            <h3 class="display-h3 pkg-box__title">{item.title}</h3>
+            <p class="pkg-box__desc">{item.desc}</p>
+            <div class="pkg-box__bar" aria-hidden="true">
+              <span class="pkg-box__bar-fill"></span>
+            </div>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pkg-steps {
+    padding-block: clamp(4rem, 7vw, 6rem);
+  }
+
+  .pkg-steps__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .pkg-steps__head h2 {
+    margin-top: 0.5rem;
+  }
+
+  .pkg-steps__status {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+
+  .pkg-steps__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+
+  @media (min-width: 640px) {
+    .pkg-steps__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pkg-steps__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .pkg-box {
+    appearance: none;
+    background: var(--bg-canvas);
+    border: none;
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    padding: clamp(1.5rem, 2.8vw, 2.25rem);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.3s var(--ease-expo);
+  }
+
+  .pkg-box:hover {
+    background: var(--bg-muted);
+  }
+
+  .pkg-box.is-active {
+    background: var(--bg-muted);
+  }
+
+  .pkg-box__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pkg-box__num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink-muted);
+    transition: color 0.25s ease;
+  }
+
+  .pkg-box.is-active .pkg-box__num,
+  .pkg-box:hover .pkg-box__num {
+    color: var(--accent-orange);
+  }
+
+  .pkg-box__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    transition: background-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .pkg-box.is-active .pkg-box__dot {
+    background: var(--accent-orange);
+    transform: scale(1.3);
+  }
+
+  .pkg-box__title {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .pkg-box__desc {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--ink-secondary);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .pkg-box__bar {
+    height: 2px;
+    width: 100%;
+    background: var(--border-hairline);
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .pkg-box__bar-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--accent-orange);
+    transition: width 0.55s var(--ease-expo);
+  }
+
+  .pkg-box.is-active .pkg-box__bar-fill {
+    width: 100%;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const boxes = document.querySelectorAll('[data-pkg-step]');
+    const indicator = document.getElementById('pkg-step-indicator');
+    if (!boxes.length) return;
+
+    let idx = 0;
+    let timer;
+
+    function activate(stepIndex) {
+      idx = stepIndex;
+      boxes.forEach((b, i) => b.classList.toggle('is-active', i === idx));
+      const step = boxes[idx].getAttribute('data-pkg-step') || '01';
+      if (indicator) indicator.textContent = `Step ${step} / 04 Active`;
+    }
+
+    function startCycle() {
+      clearInterval(timer);
+      timer = setInterval(() => {
+        activate((idx + 1) % boxes.length);
+      }, 3000);
+    }
+
+    boxes.forEach((box, i) => {
+      box.addEventListener('click', () => {
+        activate(i);
+        startCycle();
+      });
+    });
+
+    startCycle();
+  })();
+</script>

@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+---
+<BaseLayout title="Contact - T3element" description="Get in touch with the T3element team for TYPO3 support, free installation, or partnerships.">
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">CONTACTS</span>
+      <h1 class="display-h1 page-hero__title">Let's talk about your TYPO3 project.</h1>
+    </div>
+  </section>
+
+  <section class="contact-section section-band">
+    <div class="shell">
+      <div class="hairline-grid-2">
+        <span class="crosshair crosshair--tl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--tr" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bl" aria-hidden="true"></span>
+        <span class="crosshair crosshair--bc" aria-hidden="true"></span>
+        <span class="crosshair crosshair--br" aria-hidden="true"></span>
+
+        <!-- Left: UXIS-style Direct Contacts -->
+        <div class="contact-col">
+          <div class="contact-item">
+            <span class="eyebrow">GENERAL INQUIRIES</span>
+            <a href={`mailto:${SITE.email}`} class="contact-val underline-link">{SITE.email}</a>
+          </div>
+          <div class="contact-item">
+            <span class="eyebrow">FREE INSTALLATION SUPPORT</span>
+            <a href={`mailto:${SITE.helpEmail}`} class="contact-val underline-link">{SITE.helpEmail}</a>
+          </div>
+          <div class="contact-item">
+            <span class="eyebrow">PHONE &amp; WHATSAPP</span>
+            <a href={SITE.whatsappUrl} target="_blank" rel="noopener noreferrer" class="contact-val underline-link">{SITE.phone}</a>
+          </div>
+          <div class="contact-item">
+            <span class="eyebrow">OFFICE</span>
+            <p class="contact-addr">
+              320, 3rd Floor, Sagar Complex, Jasoanth Chowk,<br />
+              Bhavnagar, Gujarat (India - 364001)
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: UXIS-style Underline Form -->
+        <div class="contact-col">
+          <span class="eyebrow">SEND A REQUEST</span>
+          <form class="contact-form" id="contact-request-form">
+            <input type="text" name="company_url" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+            <input type="text" name="name" required placeholder="Your name" class="line-input" />
+            <input type="email" name="email" required placeholder="Your work email" class="line-input" />
+            <select name="topic" class="line-input" aria-label="Topic">
+              <option value="Free Installation">Free Installation</option>
+              <option value="Custom Element">Custom Element</option>
+              <option value="TYPO3 LTS Upgrade">TYPO3 LTS Upgrade (v13 / v14)</option>
+              <option value="360 Care SLA">360° Care Package SLA</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+            <textarea name="message" rows="4" required placeholder="Tell us about your TYPO3 version and requirements" class="line-input"></textarea>
+            <div
+              class="cf-turnstile"
+              data-sitekey="0x4AAAAAAGIk6K7rP_deyykW"
+              data-action="contact"
+              data-theme="light"
+            ></div>
+            <button type="submit" class="pill-btn pill-btn--dark" style="align-self: flex-start;">
+              <span>Submit request</span>
+              <span class="btn-arrow">→</span>
+            </button>
+            <p class="contact-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; max-width: 18ch; }
+  .contact-section { padding-block: clamp(2rem, 4vw, 4rem) clamp(5.5rem, 8vw, 7rem); }
+  .contact-col {
+    padding: clamp(2rem, 4vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .contact-item { display: flex; flex-direction: column; gap: 0.45rem; }
+  .contact-val { font-size: clamp(1.15rem, 1.8vw, 1.5rem); font-weight: 600; align-self: flex-start; }
+  .contact-addr { margin: 0; color: var(--ink-secondary); max-width: 42ch; line-height: 1.6; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .human-check {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    font-size: 0.82rem; color: var(--ink-secondary); cursor: pointer;
+  }
+  .human-check input { accent-color: var(--ink-primary); width: 15px; height: 15px; }
+  .contact-status { margin: 0; font-size: 0.85rem; color: var(--ink-secondary); min-height: 1.2em; }
+</style>
+
+<script>
+  import { CRM_ENDPOINTS, postToCrm } from '../lib/crm';
+
+  const form = document.getElementById('contact-request-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.contact-status');
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      if (String(fd.get('company_url') || '').trim() !== '') return;
+
+      const token = String(fd.get('cf-turnstile-response') || '');
+      if (!token) {
+        if (status) status.textContent = 'Please complete the Turnstile security check.';
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (status) status.textContent = 'Submitting request...';
+
+      const result = await postToCrm(CRM_ENDPOINTS.contact, {
+        name: String(fd.get('name') || ''),
+        email: String(fd.get('email') || ''),
+        topic: String(fd.get('topic') || 'General Inquiry'),
+        message: String(fd.get('message') || ''),
+        'cf-turnstile-response': token,
+      });
+
+      const widgetEl = form.querySelector('.cf-turnstile');
+      if (widgetEl && (window as any).turnstile) {
+        (window as any).turnstile.reset(widgetEl);
+      }
+
+      if (status) {
+        status.textContent = result.ok
+          ? 'Request submitted! Our TYPO3 team will reply within 1 business day.'
+          : result.message;
+      }
+      if (result.ok) form.reset();
+      if (submitBtn) submitBtn.disabled = false;
+    });
+  }
+</script>

@@ -1,0 +1,324 @@
+---
+import { ELEMENT_LIBRARY, SITE } from '../../data/site';
+
+const categories = ['All', 'Layout', 'Conversion', 'Media', 'Data'];
+---
+<section class="el-lib section-band">
+  <div class="shell">
+    <div class="el-lib__head" data-reveal>
+      <div>
+        <span class="eyebrow">INTERACTIVE ELEMENT LIBRARY</span>
+        <h2 class="display-h2">Custom blocks you can build in minutes.</h2>
+      </div>
+
+      <div class="el-lib__filters" role="group" aria-label="Filter content elements">
+        {
+          categories.map((cat, i) => (
+            <button
+              type="button"
+              class:list={['el-filter-btn', { 'is-active': i === 0 }]}
+              data-el-cat={cat}
+            >
+              {cat}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="el-lib__layout">
+      <!-- Left: Interactive Element Cards Grid -->
+      <div class="el-lib__grid" id="el-lib-grid">
+        {
+          ELEMENT_LIBRARY.map((item, idx) => (
+            <button
+              type="button"
+              class:list={['el-card', { 'is-selected': idx === 0 }]}
+              data-el-id={item.id}
+              data-el-category={item.category}
+            >
+              <div class="el-card__top">
+                <span class="el-card__cat">{item.category}</span>
+                <span class="el-card__time">{item.buildTime}</span>
+              </div>
+              <strong class="el-card__title">{item.title}</strong>
+              <code class="el-card__ctype">{item.ctype}</code>
+              <span class="el-card__count">{item.fields.length} TYPO3 Fields →</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Right: Live Element Blueprint Inspector -->
+      <aside class="el-inspector" id="el-inspector" aria-live="polite">
+        <div class="el-inspector__bar">
+          <span class="eyebrow">LIVE ELEMENT BLUEPRINT</span>
+          <span class="el-inspector__badge" id="ins-time">~4 min</span>
+        </div>
+
+        <h3 class="display-h3" id="ins-title">{ELEMENT_LIBRARY[0].title}</h3>
+        <code class="el-inspector__ctype" id="ins-ctype">CType: {ELEMENT_LIBRARY[0].ctype}</code>
+
+        <div class="el-inspector__fields">
+          <span class="eyebrow">INCLUDED TYPO3 FIELDS</span>
+          <div class="el-inspector__chips" id="ins-fields">
+            {ELEMENT_LIBRARY[0].fields.map((f) => <span class="pill-tag">{f}</span>)}
+          </div>
+        </div>
+
+        <div class="el-inspector__code">
+          <span class="eyebrow">GENERATED FLUID SNIPPET</span>
+          <pre><code id="ins-fluid">{ELEMENT_LIBRARY[0].fluidTag}</code></pre>
+        </div>
+
+        <a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="pill-btn pill-btn--dark">
+          <span>Build This Block Free</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .el-lib {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .el-lib__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .el-lib__head h2 {
+    margin-top: 0.5rem;
+    max-width: 18ch;
+  }
+
+  .el-lib__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .el-filter-btn {
+    padding: 0.55rem 1.05rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-pill);
+    background: var(--bg-canvas);
+    color: var(--ink-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .el-filter-btn:hover {
+    border-color: var(--ink-primary);
+    color: var(--ink-primary);
+  }
+
+  .el-filter-btn.is-active {
+    background: var(--ink-primary);
+    border-color: var(--ink-primary);
+    color: var(--ink-inverse);
+  }
+
+  .el-lib__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .el-lib__layout {
+      grid-template-columns: 1.22fr 0.78fr;
+    }
+  }
+
+  .el-lib__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 600px) {
+    .el-lib__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .el-card {
+    appearance: none;
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-hairline);
+    border-radius: 0.6rem;
+    padding: 1.25rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    cursor: pointer;
+    transition: border-color 0.25s ease, transform 0.25s var(--ease-expo), background-color 0.25s ease;
+  }
+
+  .el-card:hover {
+    border-color: var(--ink-primary);
+    transform: translateY(-2px);
+  }
+
+  .el-card.is-selected {
+    border-color: var(--ink-primary);
+    background: var(--bg-muted);
+    box-shadow: inset 0 0 0 1px var(--ink-primary);
+  }
+
+  .el-card[hidden] {
+    display: none;
+  }
+
+  .el-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+  }
+
+  .el-card__cat {
+    color: var(--accent-orange);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .el-card__time {
+    color: var(--ink-muted);
+  }
+
+  .el-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink-primary);
+  }
+
+  .el-card__ctype {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--ink-muted);
+  }
+
+  .el-card__count {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-secondary);
+  }
+
+  .el-inspector {
+    border: 1px solid var(--border-strong);
+    border-radius: 0.75rem;
+    background: var(--bg-muted);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .el-inspector__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .el-inspector__badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: var(--accent-orange-soft);
+    color: var(--ink-primary);
+  }
+
+  .el-inspector__ctype {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-secondary);
+  }
+
+  .el-inspector__fields,
+  .el-inspector__code {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .el-inspector__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .el-inspector__code pre {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    background: var(--bg-dark);
+    color: #f4f4f4;
+    border-radius: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+</style>
+
+<script define:vars={{ ELEMENT_LIBRARY }}>
+  (function () {
+    const filterBtns = document.querySelectorAll('[data-el-cat]');
+    const cards = document.querySelectorAll('[data-el-id]');
+    const insTitle = document.getElementById('ins-title');
+    const insCtype = document.getElementById('ins-ctype');
+    const insTime = document.getElementById('ins-time');
+    const insFields = document.getElementById('ins-fields');
+    const insFluid = document.getElementById('ins-fluid');
+
+    function selectElement(id) {
+      const item = ELEMENT_LIBRARY.find((e) => e.id === id);
+      if (!item) return;
+      cards.forEach((c) => c.classList.toggle('is-selected', c.getAttribute('data-el-id') === id));
+      if (insTitle) insTitle.textContent = item.title;
+      if (insCtype) insCtype.textContent = `CType: ${item.ctype}`;
+      if (insTime) insTime.textContent = item.buildTime;
+      if (insFluid) insFluid.textContent = item.fluidTag;
+      if (insFields) {
+        insFields.innerHTML = item.fields.map((f) => `<span class="pill-tag">${f}</span>`).join('');
+      }
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const id = card.getAttribute('data-el-id');
+        if (id) selectElement(id);
+      });
+    });
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-el-cat');
+        filterBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+        let firstVisible = null;
+        cards.forEach((c) => {
+          const match = cat === 'All' || c.getAttribute('data-el-category') === cat;
+          c.hidden = !match;
+          if (match && !firstVisible) firstVisible = c.getAttribute('data-el-id');
+        });
+        if (firstVisible) selectElement(firstVisible);
+      });
+    });
+  })();
+</script>

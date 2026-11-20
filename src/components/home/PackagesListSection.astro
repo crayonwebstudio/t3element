@@ -1,0 +1,597 @@
+---
+import { PACKAGES_LIST, SITE } from '../../data/site';
+---
+<section class="pkg-showcase section-band">
+  <div class="shell">
+    <div class="pkg-showcase__head" data-reveal>
+      <div>
+        <span class="eyebrow">PACKAGE WORKSPACE</span>
+        <h2 class="display-h2">Manage every TYPO3 package in one place.</h2>
+      </div>
+      <p class="pkg-showcase__lead">
+        Organize client starter packages across TYPO3 v13 and v14, add custom content elements with one click, and export production extensions anytime.
+      </p>
+    </div>
+
+    <div class="pkg-app-frame" data-reveal>
+      <!-- App Chrome Top Bar -->
+      <div class="pkg-app-bar">
+        <div class="pkg-app-bar__left">
+          <img src="/logos/t3element-horizontal.png" alt="t3element" class="pkg-app-logo" width="110" height="30" />
+          <a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="pkg-app-home" aria-label="Dashboard Home">
+            ⌂
+          </a>
+        </div>
+        <div class="pkg-app-bar__right">
+          <span class="pkg-app-user">workspace@t3element.com</span>
+          <a href="/contact" class="pkg-app-ticket underline-link">Support Ticket</a>
+        </div>
+      </div>
+
+      <!-- Toolbar: Title, Search, Version Filter, New Package + -->
+      <div class="pkg-toolbar">
+        <div class="pkg-toolbar__left">
+          <h3 class="pkg-toolbar__title">Packages</h3>
+          <span class="pkg-count-pill" id="pkg-list-count">{PACKAGES_LIST.length} total</span>
+        </div>
+
+        <div class="pkg-toolbar__controls">
+          <input
+            type="search"
+            id="pkg-search-input"
+            placeholder="Filter packages..."
+            class="pkg-search"
+            aria-label="Filter packages"
+          />
+
+          <div class="pkg-ver-filters" role="group" aria-label="Filter by TYPO3 version">
+            <button type="button" class="pkg-ver-btn is-active" data-pkg-ver="all">All</button>
+            <button type="button" class="pkg-ver-btn" data-pkg-ver="14.x.x">14.x.x</button>
+            <button type="button" class="pkg-ver-btn" data-pkg-ver="13.x.x">13.x.x</button>
+          </div>
+
+          <button type="button" class="pkg-new-btn" id="pkg-list-add-btn">
+            <span>New Package</span>
+            <span class="pkg-new-btn__plus">+</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Inline Action Status Banner -->
+      <div class="pkg-action-toast" id="pkg-action-toast" hidden aria-live="polite"></div>
+
+      <!-- Table -->
+      <div class="pkg-table-scroll">
+        <div class="pkg-table-head">
+          <button type="button" class="pkg-sort-btn" id="pkg-sort-btn">
+            Package Name <span id="pkg-sort-arrow">↑</span>
+          </button>
+          <span>Package Description</span>
+          <span>Typo3 Version</span>
+          <span class="pkg-head-actions">Actions</span>
+        </div>
+
+        <div id="pkg-list-body" class="pkg-list-body">
+          {
+            PACKAGES_LIST.map((pkg) => (
+              <div
+                class="pkg-list-row"
+                data-pkg-name={pkg.name}
+                data-pkg-desc={pkg.desc}
+                data-pkg-ver={pkg.ver}
+                data-pkg-elements={pkg.elements}
+              >
+                <div class="pkg-cell-name">
+                  <span class="pkg-layer-icon" aria-hidden="true">❖</span>
+                  <strong>{pkg.name}</strong>
+                </div>
+                <span class="pkg-cell-desc">{pkg.desc}</span>
+                <span class="pkg-cell-ver">{pkg.ver}</span>
+                <div class="pkg-cell-actions">
+                  <button
+                    type="button"
+                    class="pkg-row-btn"
+                    data-row-act="add"
+                    title="Add Element to Package"
+                    aria-label={`Add element to ${pkg.name}`}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    class="pkg-row-btn"
+                    data-row-act="edit"
+                    title="Inspect Package"
+                    aria-label={`Inspect ${pkg.name}`}
+                  >
+                    ✎
+                  </button>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Pagination Bar -->
+      <div class="pkg-footer-pager" aria-label="Packages pagination">
+        <button type="button" class="pkg-pg" data-pg="1">|&lt;</button>
+        <button type="button" class="pkg-pg" data-pg="1">&lt;</button>
+        <button type="button" class="pkg-pg is-active" data-pg="1">1</button>
+        <button type="button" class="pkg-pg" data-pg="2">2</button>
+        <button type="button" class="pkg-pg" data-pg="2">&gt;</button>
+        <button type="button" class="pkg-pg" data-pg="2">&gt;|</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .pkg-showcase {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .pkg-showcase__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .pkg-showcase__head {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+
+  .pkg-showcase__head h2 {
+    margin-top: 0.5rem;
+    max-width: 20ch;
+  }
+
+  .pkg-showcase__lead {
+    margin: 0;
+    max-width: 44ch;
+    color: var(--ink-secondary);
+    font-size: 0.98rem;
+  }
+
+  .pkg-app-frame {
+    border: 1px solid var(--border-strong);
+    border-radius: 0.85rem;
+    background: var(--bg-canvas);
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.05);
+  }
+
+  .pkg-app-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid var(--border-hairline);
+    background: var(--bg-muted);
+  }
+
+  .pkg-app-bar__left,
+  .pkg-app-bar__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .pkg-app-logo {
+    height: 24px;
+    width: auto;
+  }
+
+  .pkg-app-home {
+    width: 28px;
+    height: 28px;
+    border-radius: 0.35rem;
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-hairline);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .pkg-app-user {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .pkg-app-user {
+      display: inline;
+    }
+  }
+
+  .pkg-app-ticket {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .pkg-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .pkg-toolbar__left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .pkg-toolbar__title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .pkg-count-pill {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background: var(--bg-muted);
+    color: var(--ink-secondary);
+  }
+
+  .pkg-toolbar__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .pkg-search {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    outline: none;
+    min-width: 170px;
+  }
+
+  .pkg-search:focus {
+    border-color: var(--accent-orange);
+  }
+
+  .pkg-ver-filters {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .pkg-ver-btn {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border-pill);
+    border-radius: var(--radius-pill);
+    background: var(--bg-canvas);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+    color: var(--ink-secondary);
+  }
+
+  .pkg-ver-btn.is-active {
+    background: var(--ink-primary);
+    border-color: var(--ink-primary);
+    color: #ffffff;
+  }
+
+  .pkg-new-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.4rem 0.35rem 0.85rem;
+    border: 1px solid rgba(247, 147, 30, 0.55);
+    border-radius: 0.4rem;
+    background: var(--bg-canvas);
+    color: var(--accent-orange);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .pkg-new-btn:hover {
+    background: var(--accent-orange-soft);
+  }
+
+  .pkg-new-btn__plus {
+    width: 22px;
+    height: 22px;
+    border-radius: 0.25rem;
+    background: var(--ink-primary);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pkg-action-toast {
+    padding: 0.7rem 1.5rem;
+    background: var(--accent-orange-soft);
+    border-bottom: 1px solid rgba(247, 147, 30, 0.35);
+    font-size: 0.82rem;
+    color: var(--ink-primary);
+    font-weight: 500;
+  }
+
+  .pkg-table-scroll {
+    overflow-x: auto;
+  }
+
+  .pkg-table-head,
+  .pkg-list-row {
+    display: grid;
+    grid-template-columns: minmax(200px, 1.3fr) minmax(220px, 1.5fr) 110px 84px;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .pkg-table-head {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    background: rgba(247, 247, 247, 0.5);
+  }
+
+  .pkg-sort-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    text-align: left;
+    font: inherit;
+    color: var(--ink-primary);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .pkg-head-actions {
+    text-align: right;
+  }
+
+  .pkg-list-row {
+    font-size: 0.84rem;
+    transition: background-color 0.2s ease, transform 0.2s var(--ease-expo);
+  }
+
+  .pkg-list-row:hover {
+    background: var(--bg-muted);
+    transform: translateX(3px);
+  }
+
+  .pkg-list-row[hidden] {
+    display: none;
+  }
+
+  .pkg-cell-name {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .pkg-layer-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 0.35rem;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-hairline);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: var(--ink-secondary);
+    flex-shrink: 0;
+  }
+
+  .pkg-cell-desc {
+    color: var(--ink-secondary);
+  }
+
+  .pkg-cell-ver {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-secondary);
+  }
+
+  .pkg-cell-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  }
+
+  .pkg-row-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 0.3rem;
+    background: var(--bg-muted);
+    border: 1px solid var(--border-hairline);
+    color: var(--ink-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+  }
+
+  .pkg-row-btn:hover {
+    border-color: var(--ink-primary);
+    color: var(--ink-primary);
+  }
+
+  .pkg-footer-pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1rem;
+  }
+
+  .pkg-pg {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 0.45rem;
+    border-radius: 0.3rem;
+    border: none;
+    background: var(--bg-muted);
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pkg-pg.is-active {
+    background: var(--accent-orange-soft);
+    color: var(--accent-orange);
+    font-weight: 700;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const body = document.getElementById('pkg-list-body');
+    const search = document.getElementById('pkg-search-input');
+    const verBtns = document.querySelectorAll('[data-pkg-ver]');
+    const sortBtn = document.getElementById('pkg-sort-btn');
+    const sortArrow = document.getElementById('pkg-sort-arrow');
+    const addBtn = document.getElementById('pkg-list-add-btn');
+    const countPill = document.getElementById('pkg-list-count');
+    const toast = document.getElementById('pkg-action-toast');
+    const pgBtns = document.querySelectorAll('.pkg-pg');
+    if (!body) return;
+
+    let activeVer = 'all';
+    let sortAsc = true;
+    let currentPage = 1;
+    const perPage = 5;
+
+    function getRows() {
+      return Array.from(body.querySelectorAll('.pkg-list-row'));
+    }
+
+    function applyFilters() {
+      const q = (search && search.value ? search.value : '').trim().toLowerCase();
+      const rows = getRows();
+      const matching = rows.filter((r) => {
+        const name = (r.getAttribute('data-pkg-name') || '').toLowerCase();
+        const desc = (r.getAttribute('data-pkg-desc') || '').toLowerCase();
+        const ver = r.getAttribute('data-pkg-ver') || '';
+        const matchQ = !q || name.includes(q) || desc.includes(q);
+        const matchV = activeVer === 'all' || ver === activeVer;
+        return matchQ && matchV;
+      });
+
+      const start = q || activeVer !== 'all' ? 0 : (currentPage - 1) * perPage;
+      const end = q || activeVer !== 'all' ? matching.length : start + perPage;
+
+      rows.forEach((r) => { r.hidden = true; });
+      matching.slice(start, end).forEach((r) => { r.hidden = false; });
+
+      if (countPill) countPill.textContent = `${matching.length} packages`;
+    }
+
+    function bindRowActions(row) {
+      row.querySelectorAll('[data-row-act]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const act = btn.getAttribute('data-row-act');
+          const name = row.getAttribute('data-pkg-name');
+          const ver = row.getAttribute('data-pkg-ver');
+          const els = row.getAttribute('data-pkg-elements');
+          if (!toast) return;
+          toast.hidden = false;
+          toast.textContent =
+            act === 'add'
+              ? `Ready to add a new TYPO3 custom element to "${name}" (${ver}).`
+              : `Inspecting "${name}" - TYPO3 ${ver} • ${els} custom elements configured.`;
+        });
+      });
+    }
+
+    getRows().forEach(bindRowActions);
+
+    if (search) search.addEventListener('input', applyFilters);
+
+    verBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeVer = btn.getAttribute('data-pkg-ver') || 'all';
+        verBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+        currentPage = 1;
+        applyFilters();
+      });
+    });
+
+    if (sortBtn) {
+      sortBtn.addEventListener('click', () => {
+        sortAsc = !sortAsc;
+        if (sortArrow) sortArrow.textContent = sortAsc ? '↑' : '↓';
+        const sorted = getRows().sort((a, b) => {
+          const na = a.getAttribute('data-pkg-name') || '';
+          const nb = b.getAttribute('data-pkg-name') || '';
+          return sortAsc ? na.localeCompare(nb) : nb.localeCompare(na);
+        });
+        sorted.forEach((r) => body.appendChild(r));
+        applyFilters();
+      });
+    }
+
+    if (addBtn) {
+      addBtn.addEventListener('click', () => {
+        const row = document.createElement('div');
+        row.className = 'pkg-list-row';
+        row.setAttribute('data-pkg-name', 'EU Enterprise Starter');
+        row.setAttribute('data-pkg-desc', 'EU Enterprise Starter Package');
+        row.setAttribute('data-pkg-ver', '14.x.x');
+        row.setAttribute('data-pkg-elements', '1');
+        row.innerHTML = `
+          <div class="pkg-cell-name"><span class="pkg-layer-icon" aria-hidden="true">❖</span><strong>EU Enterprise Starter</strong></div>
+          <span class="pkg-cell-desc">EU Enterprise Starter Package</span>
+          <span class="pkg-cell-ver">14.x.x</span>
+          <div class="pkg-cell-actions">
+            <button type="button" class="pkg-row-btn" data-row-act="add" title="Add Element">+</button>
+            <button type="button" class="pkg-row-btn" data-row-act="edit" title="Inspect Package">✎</button>
+          </div>`;
+        bindRowActions(row);
+        body.prepend(row);
+        currentPage = 1;
+        applyFilters();
+        if (toast) {
+          toast.hidden = false;
+          toast.textContent = 'Created "EU Enterprise Starter" (TYPO3 14.x.x).';
+        }
+      });
+    }
+
+    pgBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentPage = Number(btn.getAttribute('data-pg') || 1);
+        pgBtns.forEach((b) => b.classList.toggle('is-active', b.textContent === String(currentPage)));
+        applyFilters();
+      });
+    });
+
+    applyFilters();
+  })();
+</script>

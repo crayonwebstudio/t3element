@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const guideSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: 'T3element TYPO3 v13 & v14 Installation and Setup Guide',
+    description: 'Composer, nnrestapi, TypoScript root template, YAML routing, and cHash configuration for T3element.',
+    author: { '@type': 'Organization', name: 'T3element' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'User Guide', item: 'https://t3element.com/user-guide/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="User Guide (TYPO3 v13 & v14) - T3element"
+  description="Complete Composer, TER, TypoScript, and YAML setup instructions for installing T3element in TYPO3 v13 and v14."
+  schema={guideSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">DOCUMENTATION</span>
+      <h1 class="display-h1 page-hero__title">TYPO3 Installation &amp; Setup Guide.</h1>
+      <p class="page-hero__sub">
+        Follow these steps to install the integrated T3element extension via Composer or TER across TYPO3 v13 and v14. Need help? Email <a href={`mailto:${SITE.helpEmail}`} class="underline-link">{SITE.helpEmail}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="guide-section section-band">
+    <div class="shell">
+      <div class="guide-tabs" role="tablist" aria-label="TYPO3 Version">
+        <button type="button" class="showcase-tab is-active" data-ver-tab="v14" aria-selected="true">TYPO3 v13 & v14</button>
+        <button type="button" class="showcase-tab" data-ver-tab="v11" aria-selected="false">TYPO3 v13.x</button>
+        <button type="button" class="showcase-tab" data-ver-tab="v10" aria-selected="false">TYPO3 v13.4 LTS</button>
+      </div>
+
+      <div class="guide-panels">
+        <div class="guide-panel" data-ver-panel="v14">
+          <div class="guide-block">
+            <span class="eyebrow">01 / COMPOSER INSTALLATION</span>
+            <h2 class="display-h3">Require T3element &amp; REST API dependency</h2>
+            <pre class="code-box"><code>composer require t3element/t3element12
+composer require nng/nnrestapi</code></pre>
+          </div>
+          <div class="guide-block">
+            <span class="eyebrow">02 / TYPOSCRIPT &amp; SITE CONFIGURATION</span>
+            <h2 class="display-h3">Include root template &amp; YAML routing</h2>
+            <p class="guide-p">In your root TypoScript template, include <strong>T3element</strong> static template and import the REST API route enhancer in your site <code>config.yaml</code>:</p>
+            <pre class="code-box"><code>imports:
+  - &#123; resource: "EXT:nnrestapi/Configuration/Yaml/default.yaml" &#125;</code></pre>
+          </div>
+          <div class="guide-block">
+            <span class="eyebrow">03 / TYPO3 12 CSP &amp; CHASH SETTINGS</span>
+            <h2 class="display-h3">Recommended LocalConfiguration / settings.php</h2>
+            <pre class="code-box"><code>$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;
+// Ensure Content-Security-Policy allows T3element backend module scripts</code></pre>
+          </div>
+        </div>
+
+        <div class="guide-panel" data-ver-panel="v11" hidden>
+          <div class="guide-block">
+            <span class="eyebrow">01 / COMPOSER INSTALLATION (V11)</span>
+            <h2 class="display-h3">Install via TER or Composer</h2>
+            <pre class="code-box"><code>composer require nng/nnrestapi
+# Download t3element extension from extensions.typo3.org/extension/t3element</code></pre>
+          </div>
+          <div class="guide-block">
+            <span class="eyebrow">02 / TYPOSCRIPT &amp; YAML</span>
+            <h2 class="display-h3">Include static TypoScript &amp; route enhancer</h2>
+            <pre class="code-box"><code>imports:
+  - &#123; resource: "EXT:nnrestapi/Configuration/Yaml/default.yaml" &#125;</code></pre>
+          </div>
+        </div>
+
+        <div class="guide-panel" data-ver-panel="v10" hidden>
+          <div class="guide-block">
+            <span class="eyebrow">01 / COMPOSER INSTALLATION (V10)</span>
+            <h2 class="display-h3">Install extension &amp; nnrestapi</h2>
+            <pre class="code-box"><code>composer require nng/nnrestapi
+# Activate t3element in TYPO3 Extension Manager</code></pre>
+          </div>
+          <div class="guide-block">
+            <span class="eyebrow">02 / CHASH &amp; TYPOSCRIPT</span>
+            <h2 class="display-h3">Configure cHash handling</h2>
+            <pre class="code-box"><code>$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = false;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; max-width: 18ch; }
+  .page-hero__sub { margin: 1.25rem 0 0; max-width: 56ch; color: var(--ink-secondary); font-size: 1.05rem; line-height: 1.6; }
+
+  .guide-section { padding-block: clamp(3rem, 6vw, 5rem); }
+  .guide-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .showcase-tab {
+    padding: 0.65rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-pill);
+    background: var(--bg-canvas);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .showcase-tab.is-active {
+    background: var(--ink-primary);
+    border-color: var(--ink-primary);
+    color: var(--ink-inverse);
+  }
+  .guide-panels { padding-top: 2rem; }
+  .guide-block {
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .guide-p { margin: 0; color: var(--ink-secondary); max-width: 65ch; }
+  .code-box {
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-dark);
+    color: #f4f4f4;
+    border-radius: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const tabs = document.querySelectorAll('[data-ver-tab]');
+    const panels = document.querySelectorAll('[data-ver-panel]');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-ver-tab');
+        tabs.forEach((t) => {
+          const active = t === tab;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', String(active));
+        });
+        panels.forEach((p) => {
+          p.hidden = p.getAttribute('data-ver-panel') !== target;
+        });
+      });
+    });
+  })();
+</script>

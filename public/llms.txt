@@ -1,0 +1,29 @@
+# T3element - European TYPO3 Engineering, 360° Care & Content Architecture
+
+> T3element (https://t3element.com/) is a European TYPO3 Engineering & Services Partner serving Germany, Austria, Switzerland (DACH), Benelux, the UK, and the EU. We deliver TYPO3 LTS upgrades (v13 & v14), custom extensions, headless TYPO3 architectures, 24/7 360° Care SLA maintenance, and the free T3element Custom Content Element Builder.
+
+## European TYPO3 Services (/services/)
+- **TYPO3 LTS Upgrades (v13 & v14)**: Zero-downtime core upgrades, TCA/Fluid refactoring, and extension compatibility audits.
+- **Custom TYPO3 Extensions & APIs**: Extbase/Symfony DI extensions, custom content blocks, and ERP/CRM integrations (SAP, HubSpot, Salesforce, Pimcore).
+- **Headless TYPO3 & Modern Frontends**: API-first TYPO3 with EXT:headless, T3Headless, and Astro/Next.js frontends.
+- **GDPR / DSGVO & Security Audits**: European privacy compliance, Swiss FADP readiness, CSP hardening, and EU hosting.
+- **Performance, SEO & SXO**: Core Web Vitals tuning, structured JSON-LD, and multilingual hreflang architectures.
+- **Legacy CMS → TYPO3 Migrations**: Content and 301-redirect migrations from WordPress, Drupal, or proprietary CMSs.
+
+## 360° Care Package SLA (/care-package/)
+- **360 Essential**: < 8h business-hours CET response, monthly TYPO3 security updates, 24/7 uptime monitoring, daily encrypted backups.
+- **360 Enterprise Care**: < 1h 24/7 SLA, emergency zero-day patching (< 4h), included Major LTS upgrades (v13 → v14), 99.99% uptime SLA, dedicated senior architects.
+- **360 Custom Cloud & Gov**: Private VPC / air-gapped administration, GDPR & Swiss FADP audits, multi-market release orchestration.
+
+## Free T3element Content Element Builder (/element-builder/)
+- Drag-and-drop custom TYPO3 content element builder & starter package generator (TYPO3 v13 & v14), available free at https://ce.t3element.com and via TYPO3 TER / Packagist.
+
+## Key URLs
+- Home: https://t3element.com/
+- Services: https://t3element.com/services/
+- 360° Care Package: https://t3element.com/care-package/
+- Element Builder: https://t3element.com/element-builder/
+- About Us: https://t3element.com/about/
+- User Guide: https://t3element.com/user-guide/
+- FAQ: https://t3element.com/faq/
+- Contact: https://t3element.com/contact/

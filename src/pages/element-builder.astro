@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import PackagesListSection from '../components/home/PackagesListSection.astro';
+import PackageStepsSection from '../components/home/PackageStepsSection.astro';
+import ElementLibrarySection from '../components/home/ElementLibrarySection.astro';
+import CapabilitiesSection from '../components/home/CapabilitiesSection.astro';
+import ProductShowcase from '../components/home/ProductShowcase.astro';
+import WorkflowVenn from '../components/home/WorkflowVenn.astro';
+import EcosystemGrid from '../components/home/EcosystemGrid.astro';
+import IntegratedBanner from '../components/home/IntegratedBanner.astro';
+import FeedbackFaqSection from '../components/home/FeedbackFaqSection.astro';
+import { FAQ_ITEMS } from '../data/site';
+
+const builderSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Element Builder', item: 'https://t3element.com/element-builder/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="Element Builder - Free TYPO3 Custom Content Block Generator | T3element"
+  description="Build custom TYPO3 CMS content elements in 4–5 minutes with drag-and-drop fields, validations, and Fluid templates. Export ready-to-install TYPO3 v13 & v14 packages free."
+  schema={builderSchema}
+>
+  <HeroSection />
+  <PackagesListSection />
+  <PackageStepsSection />
+  <ElementLibrarySection />
+  <CapabilitiesSection />
+  <ProductShowcase />
+  <WorkflowVenn />
+  <EcosystemGrid />
+  <IntegratedBanner />
+  <FeedbackFaqSection />
+</BaseLayout>

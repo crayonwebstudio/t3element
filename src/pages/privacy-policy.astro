@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const sections = [
+  {
+    id: '01',
+    title: 'Information We Collect',
+    body: 'When you request a demo, submit feedback, ask a question, subscribe to our newsletter, or register at ce.t3element.com, we collect only the details you voluntarily provide, such as your name, work email address, and project message.',
+  },
+  {
+    id: '02',
+    title: 'How We Use Information',
+    body: 'Submitted information is used strictly to respond to support or installation requests, deliver requested product updates, and improve the T3element TYPO3 Custom Content Block Builder.',
+  },
+  {
+    id: '03',
+    title: 'Cookies & Local Storage',
+    body: 'This website uses minimal session storage (such as preloader state) to ensure smooth navigation. We do not sell, rent, or trade personal data to third-party advertisers.',
+  },
+  {
+    id: '04',
+    title: 'Data Retention & Contact',
+    body: `You may request access to, correction of, or deletion of any personal information you have shared with us at any time by emailing ${SITE.email}.`,
+  },
+];
+---
+<BaseLayout title="Privacy Policy - T3element" description="Privacy Policy for T3element TYPO3 Custom Content Block Builder.">
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">LEGAL / PRIVACY</span>
+      <h1 class="display-h1 page-hero__title">Privacy Policy.</h1>
+      <p class="page-hero__sub">Effective Date: November 2026 - How T3element handles and protects your information.</p>
+    </div>
+  </section>
+
+  <section class="editorial-section section-band">
+    <div class="shell">
+      <div class="editorial-list">
+        {
+          sections.map((s) => (
+            <article class="editorial-row">
+              <div class="editorial-row__left">
+                <span class="editorial-num">{s.id}</span>
+                <h2 class="display-h3">{s.title}</h2>
+              </div>
+              <div class="editorial-row__right">
+                <p>{s.body}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .page-hero__title { margin-top: 0.75rem; }
+  .page-hero__sub { margin: 1rem 0 0; color: var(--ink-secondary); max-width: 54ch; }
+  .editorial-section { padding-bottom: clamp(4rem, 7vw, 6rem); }
+  .editorial-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 820px) {
+    .editorial-row {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 3rem;
+    }
+  }
+  .editorial-row__left { display: flex; flex-direction: column; gap: 0.5rem; }
+  .editorial-num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-orange); font-weight: 600; }
+  .editorial-row__right p { margin: 0; color: var(--ink-secondary); line-height: 1.7; font-size: 0.98rem; }
+</style>

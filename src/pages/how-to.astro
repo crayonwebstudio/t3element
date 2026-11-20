@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkflowVenn from '../components/home/WorkflowVenn.astro';
+import { HOW_TO_STEPS, SITE } from '../data/site';
+
+const howToSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Build a Custom TYPO3 Content Element with T3element',
+    description: 'Four simple steps to create, configure, build, and install custom TYPO3 content blocks in minutes.',
+    totalTime: 'PT5M',
+    step: HOW_TO_STEPS.map((s, idx) => ({
+      '@type': 'HowToStep',
+      position: idx + 1,
+      name: s.title,
+      text: s.desc,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://t3element.com/' },
+      { '@type': 'ListItem', position: 2, name: 'How To', item: 'https://t3element.com/how-to/' },
+    ],
+  },
+];
+---
+<BaseLayout
+  title="How To Build Custom TYPO3 Content Elements in 4 Steps - T3element"
+  description="Step-by-step guide to creating a TYPO3 package, configuring drag-and-drop fields, building the extension ZIP, and installing in TYPO3 v13–v14."
+  schema={howToSchema}
+>
+  <section class="page-hero">
+    <div class="shell">
+      <span class="eyebrow">4-STEP WORKFLOW</span>
+      <h1 class="display-h1 page-hero__title">From blank canvas to TYPO3 extension in 4 steps.</h1>
+      <p class="page-hero__sub">
+        No deep TypoScript or manual TCA boilerplate required. Follow the four-stage workflow below to ship custom elements in minutes.
+      </p>
+    </div>
+  </section>
+
+  <section class="steps-section section-band">
+    <div class="shell">
+      <div class="steps-grid">
+        {
+          HOW_TO_STEPS.map((item) => (
+            <article class="step-card" data-reveal>
+              <span class="step-card__num">{item.step}</span>
+              <h2 class="display-h3">{item.title}</h2>
+              <p class="step-card__desc">{item.desc}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="steps-cta">
+        <a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="pill-btn pill-btn--dark">
+          <span>Create Your First Package</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <WorkflowVenn />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+  .page-hero__title {
+    margin-top: 0.75rem;
+    max-width: 18ch;
+  }
+  .page-hero__sub {
+    margin: 1.25rem 0 0;
+    max-width: 54ch;
+    color: var(--ink-secondary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .steps-section {
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--border-hairline);
+    border-left: 1px solid var(--border-hairline);
+  }
+  @media (min-width: 768px) {
+    .steps-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .step-card {
+    padding: clamp(2rem, 4vw, 3rem);
+    border-right: 1px solid var(--border-hairline);
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .step-card__num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-orange);
+  }
+  .step-card__desc {
+    margin: 0;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+  }
+  .steps-cta {
+    padding-top: 2.5rem;
+  }
+</style>

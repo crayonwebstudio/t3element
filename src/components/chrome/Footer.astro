@@ -1,0 +1,355 @@
+---
+import { SITE } from '../../data/site';
+---
+<footer class="site-footer section-band">
+  <div class="shell">
+    <!-- UXIS Full-Viewport Oversized CTA -->
+    <div class="footer-hero">
+      <span class="eyebrow">EUROPEAN TYPO3 ENGINEERING • DACH &amp; EU</span>
+      <a href="/contact" class="footer-hero__cta">
+        <span class="footer-hero__label">Let's talk TYPO3</span>
+        <span class="footer-hero__badge" aria-hidden="true">→</span>
+      </a>
+      <p class="footer-hero__sub">
+        Plan a zero-downtime TYPO3 LTS upgrade, 360° Care SLA, headless architecture, or custom content block sprint.
+      </p>
+    </div>
+
+    <!-- Clean 4-Column Metadata Grid -->
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="/logos/t3element-horizontal.png" alt="t3element" class="footer-logo" width="144" height="40" />
+        <p class="footer-blurb">
+          European TYPO3 Engineering, 360° Care SLA &amp; Content Architecture partner, and creators of the free T3element Content Block Builder.
+        </p>
+        <p class="footer-address">
+          320, 3rd Floor, Sagar Complex, Jasoanth Chowk,<br />
+          Bhavnagar, Gujarat (India - 364001)
+        </p>
+        <div class="footer-badges">
+          <img
+            src="/logos/typo3-association-member.png"
+            alt="TYPO3 Association Community Member"
+            class="footer-badge-member"
+            width="180"
+            height="54"
+            loading="lazy"
+          />
+          <img
+            src="/logos/typo3-sponsor-badge.png"
+            alt="TYPO3 CMS Team Sponsor"
+            class="footer-badge-sponsor"
+            width="76"
+            height="76"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="eyebrow">Services &amp; Brand</h3>
+        <ul class="footer-links">
+          <li><a href="/services" class="underline-link">TYPO3 Services</a></li>
+          <li><a href="/care-package" class="underline-link">360° Care Package</a></li>
+          <li><a href="/element-builder" class="underline-link">Element Builder</a></li>
+          <li><a href="/about" class="underline-link">About Us</a></li>
+          <li><a href="/contact" class="underline-link">Contact</a></li>
+          <li><a href="/privacy-policy" class="underline-link">Privacy Policy</a></li>
+          <li><a href="/terms-and-condition" class="underline-link">Terms &amp; Conditions</a></li>
+          <li><a href="/copyright" class="underline-link">Copyright</a></li>
+          <li><a href="/sitemap" class="underline-link">Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="eyebrow">Builder &amp; Docs</h3>
+        <ul class="footer-links">
+          <li><a href={SITE.appRegisterUrl} target="_blank" rel="noopener noreferrer" class="underline-link">Builder Web App</a></li>
+          <li><a href="/user-guide" class="underline-link">User Guide</a></li>
+          <li><a href="/how-to" class="underline-link">How To</a></li>
+          <li><a href="/faq" class="underline-link">FAQ</a></li>
+          <li><a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer" class="underline-link">GitHub</a></li>
+          <li><a href={SITE.terUrl} target="_blank" rel="noopener noreferrer" class="underline-link">TYPO3 TER</a></li>
+          <li><a href={SITE.packagistUrl} target="_blank" rel="noopener noreferrer" class="underline-link">Packagist</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="eyebrow">Newsletter</h3>
+        <p class="footer-blurb">Receive TYPO3 v13 &amp; v14 updates and release notes.</p>
+        <form class="newsletter-form" id="footer-newsletter-form">
+          <input type="text" name="company_url" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Your work email"
+            class="line-input"
+            aria-label="Newsletter email"
+          />
+          <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAGIk6K7rP_deyykW"
+            data-action="newsletter"
+            data-theme="light"
+            data-size="flexible"
+          ></div>
+          <button type="submit" class="pill-btn newsletter-btn">
+            <span>Subscribe</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <p class="form-status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Trademark & Non-Official Notice -->
+    <div class="footer-notice">
+      <p>TYPO3 is a trademark of the TYPO3 Association.</p>
+      <p>t3element and t3headless is solution extension for TYPO3 CMS and is not an official TYPO3 Association product.</p>
+    </div>
+
+    <!-- Bottom Legal & Social Strip -->
+    <div class="footer-bottom">
+      <span>{SITE.copyright}</span>
+      <div class="footer-socials">
+        <a href={`mailto:${SITE.email}`} class="underline-link">{SITE.email}</a>
+        <a href={SITE.linkedinUrl} target="_blank" rel="noopener noreferrer" class="underline-link">LinkedIn</a>
+        <a href={SITE.whatsappUrl} target="_blank" rel="noopener noreferrer" class="underline-link">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-bottom: 7rem;
+    background: var(--bg-canvas);
+  }
+
+  .footer-hero {
+    padding-block: clamp(4.5rem, 10vw, 8.5rem);
+    border-bottom: 1px solid var(--border-hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .footer-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.25rem);
+    font-size: clamp(2.8rem, 7vw, 6.8rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    color: var(--ink-primary);
+    transition: color 0.3s ease;
+  }
+
+  .footer-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(3.2rem, 6vw, 5.5rem);
+    height: clamp(3.2rem, 6vw, 5.5rem);
+    border-radius: 50%;
+    border: 1px solid var(--ink-primary);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    transition: background-color 0.35s var(--ease-expo), color 0.35s var(--ease-expo), transform 0.35s var(--ease-expo), border-color 0.35s ease;
+  }
+
+  .footer-hero__cta:hover .footer-hero__badge {
+    background: var(--accent-orange);
+    border-color: var(--accent-orange);
+    color: #111111;
+    transform: translateX(6px);
+  }
+
+  .footer-hero__sub {
+    margin: 0;
+    max-width: 52ch;
+    color: var(--ink-secondary);
+    font-size: 1rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-block: 4rem;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  @media (min-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1.4fr 0.8fr 0.9fr 1.2fr;
+    }
+  }
+
+  .footer-logo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 1rem;
+  }
+
+  .footer-blurb,
+  .footer-address {
+    margin: 0 0 0.85rem;
+    font-size: 0.88rem;
+    color: var(--ink-secondary);
+    line-height: 1.55;
+  }
+
+  .footer-address {
+    color: var(--ink-muted);
+    font-size: 0.8rem;
+  }
+
+  .footer-badges {
+    margin-top: 1.15rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid var(--border-hairline);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .footer-badge-member {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-badge-sponsor {
+    height: 62px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-notice {
+    padding-top: 1.75rem;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .footer-notice p {
+    margin: 0;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.9rem;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .newsletter-form .cf-turnstile {
+    width: 100%;
+    min-height: 65px;
+  }
+
+  .newsletter-btn {
+    align-self: flex-start;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.85rem;
+  }
+
+  .form-status {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--ink-secondary);
+    min-height: 1.2em;
+  }
+
+  .human-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--ink-secondary);
+    cursor: pointer;
+  }
+
+  .human-check input {
+    accent-color: var(--ink-primary);
+    width: 14px;
+    height: 14px;
+  }
+
+  .footer-bottom {
+    padding-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+
+  .footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    color: var(--ink-primary);
+  }
+</style>
+
+<script>
+  import { CRM_ENDPOINTS, postToCrm } from '../../lib/crm';
+
+  const form = document.getElementById('footer-newsletter-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.form-status');
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      if (String(fd.get('company_url') || '').trim() !== '') return;
+
+      const token = String(fd.get('cf-turnstile-response') || '');
+      if (!token) {
+        if (status) status.textContent = 'Please complete the Turnstile security check.';
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
+      if (status) status.textContent = 'Subscribing...';
+
+      const result = await postToCrm(CRM_ENDPOINTS.newsletter, {
+        email: String(fd.get('email') || ''),
+        'cf-turnstile-response': token,
+      });
+
+      const widgetEl = form.querySelector('.cf-turnstile');
+      if (widgetEl && (window as any).turnstile) {
+        (window as any).turnstile.reset(widgetEl);
+      }
+
+      if (status) {
+        status.textContent =
+          result.code === 'success'
+            ? 'Subscribed! Thank you for following T3element updates.'
+            : result.message;
+      }
+      if (result.ok) form.reset();
+      if (submitBtn) submitBtn.disabled = false;
+    });
+  }
+</script>

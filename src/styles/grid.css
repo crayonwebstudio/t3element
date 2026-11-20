@@ -1,0 +1,240 @@
+/* UXIS Architectural 1px Hairline Grid + Crosshairs (+) + Pill Primitives */
+
+.shell {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-band {
+  border-top: 1px solid var(--border-hairline);
+  position: relative;
+}
+
+.hairline-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+  position: relative;
+}
+
+@media (min-width: 960px) {
+  .hairline-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .hairline-grid-2 > :first-child {
+    border-right: 1px solid var(--border-hairline);
+  }
+}
+
+/* Architectural + Crosshair markers */
+.crosshair {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.crosshair::before,
+.crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--ink-primary);
+  opacity: 0.45;
+}
+
+.crosshair::before {
+  top: 5px;
+  left: 0;
+  width: 11px;
+  height: 1px;
+}
+
+.crosshair::after {
+  left: 5px;
+  top: 0;
+  width: 1px;
+  height: 11px;
+}
+
+.crosshair--tl { top: -6px; left: -6px; }
+.crosshair--tr { top: -6px; right: -6px; }
+.crosshair--bl { bottom: -6px; left: -6px; }
+.crosshair--br { bottom: -6px; right: -6px; }
+.crosshair--tc { top: -6px; left: calc(50% - 5.5px); display: none; }
+.crosshair--bc { bottom: -6px; left: calc(50% - 5.5px); display: none; }
+
+@media (min-width: 960px) {
+  .crosshair--tc,
+  .crosshair--bc {
+    display: block;
+  }
+}
+
+/* UXIS Elliptical Pill Tags */
+.pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  border: 1px solid var(--border-pill);
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  background: var(--bg-canvas);
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+  white-space: nowrap;
+}
+
+.pill-tag:hover {
+  border-color: var(--ink-primary);
+}
+
+.pill-tag--accent {
+  border-color: rgba(247, 147, 30, 0.45);
+  background: var(--accent-orange-soft);
+}
+
+.orange-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  flex-shrink: 0;
+}
+
+/* UXIS Elliptical Action Button */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.55rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--ink-primary);
+  background: transparent;
+  color: var(--ink-primary);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease-expo), color 0.3s var(--ease-expo), transform 0.25s var(--ease-expo);
+}
+
+.pill-btn:hover {
+  background: var(--ink-primary);
+  color: var(--ink-inverse);
+}
+
+.pill-btn:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+.pill-btn--dark {
+  background: var(--ink-primary);
+  color: var(--ink-inverse);
+}
+
+.pill-btn--dark:hover {
+  background: #000000;
+  border-color: #000000;
+}
+
+.btn-arrow {
+  display: inline-block;
+  transition: transform 0.25s var(--ease-expo);
+}
+
+/* UXIS Underline Link Animation */
+.underline-link {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--ease-expo);
+}
+
+.underline-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* UXIS Minimal Underline Form Inputs */
+.line-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-strong);
+  padding: 0.85rem 0;
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.line-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.line-input:focus {
+  border-bottom-color: var(--accent-orange);
+}
+
+/* Typography Helpers */
+.display-h1 {
+  font-size: clamp(2.4rem, 4.6vw, 4.75rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.display-h2 {
+  font-size: clamp(2rem, 3.6vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  margin: 0;
+}
+
+.display-h3 {
+  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
