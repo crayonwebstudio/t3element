@@ -55,6 +55,7 @@ import { SITE } from '../../data/site';
           <li><a href="/about" class="underline-link">About Us</a></li>
           <li><a href="/contact" class="underline-link">Contact</a></li>
           <li><a href="/privacy-policy" class="underline-link">Privacy Policy</a></li>
+          <li><button type="button" class="underline-link cookie-settings-btn" onclick="window.openCookieSettings && window.openCookieSettings()">Cookie Settings</button></li>
           <li><a href="/terms-and-condition" class="underline-link">Terms &amp; Conditions</a></li>
           <li><a href="/copyright" class="underline-link">Copyright</a></li>
           <li><a href="/sitemap" class="underline-link">Sitemap</a></li>
@@ -249,6 +250,15 @@ import { SITE } from '../../data/site';
     flex-direction: column;
     gap: 0.55rem;
     font-size: 0.9rem;
+  }
+
+  .cookie-settings-btn {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
   }
 
   .newsletter-form {

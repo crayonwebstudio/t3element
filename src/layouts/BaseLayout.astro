@@ -5,6 +5,7 @@ import Preloader from '../components/chrome/Preloader.astro';
 import TopHeader from '../components/chrome/TopHeader.astro';
 import FloatingDock from '../components/chrome/FloatingDock.astro';
 import Footer from '../components/chrome/Footer.astro';
+import CookieConsent from '../components/chrome/CookieConsent.astro';
 import { SITE } from '../data/site';
 
 interface Props {
@@ -87,12 +88,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       rel="stylesheet"
     />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script async src="https://www.googletagmanager.com/gtm.js?id=G-Y2EQ6PJDP4"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    </script>
+    <!-- Google Tag Manager loads only after analytics consent, see CookieConsent.astro -->
 
     {
       allSchemas.map((item) => (
@@ -107,6 +103,7 @@ const allSchemas = [...baseSchemas, ...extraSchemas];
       <slot />
     </main>
     <Footer />
+    <CookieConsent />
     <FloatingDock currentPath={currentPath} />
 
     <script>
