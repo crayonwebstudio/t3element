@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { EU_SERVICES } from '../data/site';
+import { EU_SERVICES, SITE } from '../data/site';
 
 const servicesSchema = [
   {
@@ -55,7 +55,7 @@ const servicesSchema = [
         From zero-downtime TYPO3 LTS upgrades and custom Extbase engineering to headless Astro/Next.js frontends and GDPR/DSGVO security compliance, we build and maintain mission-critical TYPO3 platforms.
       </p>
       <div class="page-hero__actions">
-        <a href="/contact" class="pill-btn pill-btn--dark">
+        <a href={SITE.meetingUrl} target="_blank" rel="noopener noreferrer" class="pill-btn pill-btn--dark">
           <span>Book Technical Consultation</span>
           <span class="btn-arrow">→</span>
         </a>

@@ -10,6 +10,7 @@ export const SITE = {
   packagistUrl: 'https://packagist.org/packages/t3element/t3element12',
   linkedinUrl: 'https://www.linkedin.com/company/t3element',
   whatsappUrl: 'https://wa.me/9624052424',
+  meetingUrl: 'https://cal.com/milan-pandya-m3tsbn/15min',
   email: 'info@t3element.com',
   helpEmail: 'help@t3element.com',
   phone: '+91 96 24 052 424',
